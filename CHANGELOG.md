@@ -1,0 +1,56 @@
+# 📋 Nhật Ký Phát Hành (CHANGELOG)
+
+Tất cả các thay đổi và tiến độ phát triển qua từng giai đoạn của dự án **Wake Up** được ghi chép tại đây.
+
+---
+
+## [0.3.0] - 2026-10-20 — Giai đoạn 2: Báo thức Video & Kích hoạt thiết bị thật
+
+### ✨ Tính năng mới
+- **Hỗ trợ Video nền báo thức (Video Alarm Background)**:
+  - Cho phép người dùng chọn video từ thư viện thiết bị trong màn hình thêm/sửa báo thức (`AlarmEditScreen`).
+  - Tích hợp `MediaService` sao chép an toàn video vào vùng lưu trữ ứng dụng (`app_flutter/custom_media`).
+  - Nâng cấp màn hình chuông reo (`AlarmRingingScreen`) tự động phát video full-screen lặp vô tận (`setLooping(true)`) làm nền sống động kèm hiệu ứng mờ tối giúp hiển thị thời gian rõ ràng.
+- **Kích hoạt đánh thức màn hình khóa (Lockscreen Wake)**:
+  - Cập nhật native `MainActivity.kt` với `setShowWhenLocked(true)` và `setTurnScreenOn(true)`.
+  - Bổ sung cấu hình `AndroidManifest.xml` với `showWhenLocked`, `turnScreenOn`, `showOnLockScreen` và service `NotificationOnKillService`.
+- **Tự động bắt sự kiện chuông kêu**:
+  - Đăng ký lắng nghe `Alarm.ringing` tại tầng root (`WakeUpApp`) để tự động mở ngay màn hình báo thức reo khi chuông bắt đầu kêu.
+- **Kết nối Báo thức với hệ điều hành**:
+  - Tích hợp đầy đủ `AndroidAlarmScheduler` khi tạo mới, chỉnh sửa, bật/tắt công tắc và xóa báo thức.
+  - Tự động xin cấp quyền thông báo (`POST_NOTIFICATIONS`), báo thức chính xác (`SCHEDULE_EXACT_ALARM`) và bỏ qua tối ưu hóa pin (`REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`).
+- **Nâng cấp Cơ sở dữ liệu Drift**:
+  - Nâng cấp schema phiên bản 2 (`schemaVersion => 2`) với cột `mediaPath` và kịch bản `MigrationStrategy`.
+
+### 🐛 Sửa lỗi & Tối ưu
+- Sửa lỗi assertion `Multiple widgets used the same GlobalKey` do `CupertinoTabScaffold` bọc `StatefulNavigationShell`, chuyển sang cấu trúc phân tầng `CupertinoPageScaffold` + `Column` + `CupertinoTabBar`.
+- Kích hoạt `coreLibraryDesugaring` (`desugar_jdk_libs:2.1.4`) và `multiDexEnabled` trong `build.gradle.kts`.
+- Bổ sung file âm thanh chuông mặc định `assets/audio/alarm.mp3`.
+- Đạt 100% sạch lỗi `flutter analyze` và 22/22 unit tests pass.
+
+---
+
+## [0.2.0] - 2026-10-20 — Giai đoạn 1: Báo thức cốt lõi & Quản lý CRUD
+
+### ✨ Tính năng mới
+- **Logic tính toán thời gian thuần Dart**:
+  - `NextAlarmCalculator`: Tính toán thời gian kêu tiếp theo cho báo thức 1 lần và lặp theo thứ trong tuần, tự động xử lý ranh giới nửa đêm, chuyển tháng và chuyển năm.
+  - `SnoozeLogic`: Quản lý số lần và thời điểm báo lại, hỗ trợ đặt lại bộ đếm khi hoàn tất.
+- **Quản lý danh sách báo thức (CRUD)**:
+  - Màn hình `AlarmListScreen` phong cách iOS Clock với banner đếm ngược thời gian tới báo thức gần nhất (`alarmIn`).
+  - Màn hình thêm/sửa `AlarmEditScreen` với `CupertinoDatePicker` dạng con lăn cuộn.
+  - Hỗ trợ vuốt sang trái để xóa báo thức, bật/tắt nhanh bằng công tắc Cupertino.
+- **Tầng dữ liệu Drift SQLite**:
+  - Tạo bảng `Alarms` và lớp `AlarmRepository` với các thao tác `watchAllAlarms`, `insertAlarm`, `updateAlarm`, `toggleAlarm`, `deleteAlarm`.
+- **Unit Tests**:
+  - Viết 21 unit tests chuyên biệt cho `NextAlarmCalculator` và `SnoozeLogic`.
+
+---
+
+## [0.1.0] - 2026-10-20 — Giai đoạn 0: Khởi tạo dự án & Nền tảng giao diện
+
+### ✨ Tính năng mới
+- Khởi tạo dự án Flutter chuẩn feature-first.
+- Thiết lập hệ thống Theme iOS Dark Mode: nền đen sâu (`#000000`), chữ cam (`#FF9500`), font hệ thống mảnh.
+- Tích hợp `GoRouter` với 5 tab điều hướng chính: *Thế giới, Báo thức, Giờ ngủ, Khu vườn, Thống kê*.
+- Cấu hình đa ngôn ngữ Localization (`intl`) với tiếng Việt làm ngôn ngữ mặc định.

@@ -9,6 +9,7 @@ import '../domain/alarm_model.dart';
 import '../domain/next_alarm_calculator.dart';
 import 'providers/alarm_providers.dart';
 import 'widgets/day_picker.dart';
+import 'widgets/samsung_time_picker.dart';
 
 /// Màn hình thêm/sửa báo thức, giống iPhone.
 class AlarmEditScreen extends ConsumerStatefulWidget {
@@ -96,17 +97,12 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
       child: SafeArea(
         child: ListView(
           children: [
-            // Time picker
-            SizedBox(
-              height: 216,
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                initialDateTime: _selectedTime,
-                use24hFormat: false,
-                onDateTimeChanged: (dateTime) {
-                  setState(() => _selectedTime = dateTime);
-                },
-              ),
+            // Samsung-style Time picker
+            SamsungTimePicker(
+              initialDateTime: _selectedTime,
+              onDateTimeChanged: (dateTime) {
+                setState(() => _selectedTime = dateTime);
+              },
             ),
 
             const SizedBox(height: 16),
