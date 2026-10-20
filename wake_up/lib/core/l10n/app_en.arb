@@ -1,0 +1,80 @@
+{
+  "@@locale": "en",
+  "appTitle": "Wake Up",
+  "tabWorldClock": "World",
+  "tabAlarm": "Alarm",
+  "tabBedtime": "Bedtime",
+  "tabGarden": "Garden",
+  "tabAnalytics": "Stats",
+  "alarmListTitle": "Alarm",
+  "addAlarm": "Add Alarm",
+  "editAlarm": "Edit Alarm",
+  "deleteAlarm": "Delete",
+  "save": "Save",
+  "cancel": "Cancel",
+  "edit": "Edit",
+  "done": "Done",
+  "label": "Label",
+  "repeat": "Repeat",
+  "snooze": "Snooze",
+  "snoozeMinutes": "{minutes} min",
+  "@snoozeMinutes": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "snoozeMaxTimes": "Max {count} times",
+  "@snoozeMaxTimes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "wakeMode": "Wake Mode",
+  "wakeModeNormal": "Normal",
+  "wakeModeDeep": "Deep",
+  "sound": "Sound",
+  "stop": "Stop",
+  "snoozeButton": "Snooze",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "mondayShort": "Mon",
+  "tuesdayShort": "Tue",
+  "wednesdayShort": "Wed",
+  "thursdayShort": "Thu",
+  "fridayShort": "Fri",
+  "saturdayShort": "Sat",
+  "sundayShort": "Sun",
+  "everyDay": "Every day",
+  "weekdays": "Weekdays",
+  "weekends": "Weekends",
+  "never": "Never",
+  "noAlarms": "No alarms",
+  "alarmIn": "Alarm in {hours}h {minutes}m",
+  "@alarmIn": {
+    "placeholders": {
+      "hours": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "worldClockTitle": "World Clock",
+  "bedtimeTitle": "Bedtime",
+  "gardenTitle": "Garden",
+  "analyticsTitle": "Stats",
+  "comingSoon": "Coming Soon",
+  "permissionRequired": "Permission Required",
+  "permissionAlarmTitle": "Exact Alarm Permission",
+  "permissionAlarmDesc": "This app needs exact alarm permission to ring on time.",
+  "permissionNotificationTitle": "Notification Permission",
+  "permissionNotificationDesc": "This app needs notification permission to alert you when the alarm rings.",
+  "permissionBatteryTitle": "Battery Optimization",
+  "permissionBatteryDesc": "Please disable battery optimization for this app to ensure alarms work reliably.",
+  "grantPermission": "Grant Permission",
+  "openSettings": "Open Settings",
+  "iosUnsupportedTitle": "Not Supported",
+  "iosUnsupportedDesc": "Alarm feature requires iOS 26 or later."
+}

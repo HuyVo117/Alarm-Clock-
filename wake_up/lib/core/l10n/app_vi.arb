@@ -1,0 +1,84 @@
+{
+  "@@locale": "vi",
+  "appTitle": "Wake Up",
+  "tabWorldClock": "Thế giới",
+  "tabAlarm": "Báo thức",
+  "tabBedtime": "Giờ ngủ",
+  "tabGarden": "Khu vườn",
+  "tabAnalytics": "Thống kê",
+  "alarmListTitle": "Báo thức",
+  "addAlarm": "Thêm báo thức",
+  "editAlarm": "Sửa báo thức",
+  "deleteAlarm": "Xóa",
+  "save": "Lưu",
+  "cancel": "Hủy",
+  "edit": "Sửa",
+  "done": "Xong",
+  "label": "Nhãn",
+  "repeat": "Lặp lại",
+  "snooze": "Báo lại",
+  "snoozeMinutes": "{minutes} phút",
+  "@snoozeMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "snoozeMaxTimes": "Tối đa {count} lần",
+  "@snoozeMaxTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "wakeMode": "Chế độ đánh thức",
+  "wakeModeNormal": "Thường",
+  "wakeModeDeep": "Sâu",
+  "sound": "Âm thanh",
+  "stop": "Dừng",
+  "snoozeButton": "Báo lại",
+  "monday": "Thứ 2",
+  "tuesday": "Thứ 3",
+  "wednesday": "Thứ 4",
+  "thursday": "Thứ 5",
+  "friday": "Thứ 6",
+  "saturday": "Thứ 7",
+  "sunday": "Chủ nhật",
+  "mondayShort": "T2",
+  "tuesdayShort": "T3",
+  "wednesdayShort": "T4",
+  "thursdayShort": "T5",
+  "fridayShort": "T6",
+  "saturdayShort": "T7",
+  "sundayShort": "CN",
+  "everyDay": "Mỗi ngày",
+  "weekdays": "Các ngày trong tuần",
+  "weekends": "Cuối tuần",
+  "never": "Không bao giờ",
+  "noAlarms": "Chưa có báo thức",
+  "alarmIn": "Báo thức sau {hours}g {minutes}p",
+  "@alarmIn": {
+    "placeholders": {
+      "hours": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  },
+  "worldClockTitle": "Thế giới",
+  "bedtimeTitle": "Giờ ngủ",
+  "gardenTitle": "Khu vườn",
+  "analyticsTitle": "Thống kê",
+  "comingSoon": "Sắp ra mắt",
+  "permissionRequired": "Cần cấp quyền",
+  "permissionAlarmTitle": "Quyền báo thức chính xác",
+  "permissionAlarmDesc": "Ứng dụng cần quyền đặt báo thức chính xác để đảm bảo chuông reo đúng giờ.",
+  "permissionNotificationTitle": "Quyền thông báo",
+  "permissionNotificationDesc": "Ứng dụng cần quyền gửi thông báo khi báo thức reo.",
+  "permissionBatteryTitle": "Tối ưu pin",
+  "permissionBatteryDesc": "Vui lòng tắt tối ưu pin cho ứng dụng để báo thức hoạt động ổn định.",
+  "grantPermission": "Cấp quyền",
+  "openSettings": "Mở cài đặt",
+  "iosUnsupportedTitle": "Chưa hỗ trợ",
+  "iosUnsupportedDesc": "Tính năng báo thức yêu cầu iOS 26 trở lên."
+}
