@@ -19,6 +19,10 @@ Tất cả các thay đổi và tiến độ phát triển qua từng giai đo�
 - **Kết nối Báo thức với hệ điều hành**:
   - Tích hợp đầy đủ `AndroidAlarmScheduler` khi tạo mới, chỉnh sửa, bật/tắt công tắc và xóa báo thức.
   - Tự động xin cấp quyền thông báo (`POST_NOTIFICATIONS`), báo thức chính xác (`SCHEDULE_EXACT_ALARM`) và bỏ qua tối ưu hóa pin (`REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`).
+- **Bộ chọn giờ phong cách One UI / Samsung Clock (`SamsungTimePicker`)**:
+  - Thiết kế 3 cột trực quan: **SA/CH | Giờ | Phút** với thanh highlight trung tâm và số hiển thị lớn.
+  - Hỗ trợ cuộn vòng vô hạn mượt mà kèm rung phản hồi xúc giác (`HapticFeedback.selectionClick()`).
+  - Banner đếm ngược thời gian động: thông báo trực tiếp khoảng thời gian còn lại trước khi chuông kêu.
 - **Nâng cấp Cơ sở dữ liệu Drift**:
   - Nâng cấp schema phiên bản 2 (`schemaVersion => 2`) với cột `mediaPath` và kịch bản `MigrationStrategy`.
 

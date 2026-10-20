@@ -7,13 +7,16 @@
 ## 📱 Tính năng chính
 
 ### 1. Báo thức cốt lõi (Core Alarms)
-- **Giao diện chuẩn iOS**: Nền đen sâu (`#000000`), chữ số mảnh lớn, nút điều khiển màu cam (`#FF9500`).
-- **Cupertino Time Picker**: Con lăn chọn giờ phút mượt mà dạng bánh xe trượt.
+- **Giao diện chuẩn iOS kết hợp One UI**: Nền đen sâu (`#000000`), chữ số mảnh lớn, nút điều khiển màu cam (`#FF9500`).
+- **Bộ chọn giờ Samsung Clock (One UI Time Picker)**:
+  - Bố cục 3 cột trực quan, dễ thao tác: **Buổi (SA/CH) | Giờ (1-12) | Phút (00-59)**.
+  - Vạch highlight trung tâm với số to nổi bật, cuộn vô hạn mượt mà kèm phản hồi xúc giác (**Haptic Feedback**).
+  - Tích hợp banner đếm ngược thời gian trực quan: *"Báo thức sẽ reo sau X giờ Y phút"* ngay bên trên bộ chọn giờ.
 - **Lặp lại thông minh**: Đặt báo thức 1 lần hoặc lặp theo các thứ trong tuần (các ngày trong tuần, cuối tuần, hàng ngày...).
 - **Tính toán lần kêu kế tiếp**: Thuật toán Dart thuần tính thời điểm reo chính xác, tự bù qua nửa đêm, cuối tháng, cuối năm.
 - **Hệ thống Báo lại (Snooze)**: Giới hạn số lần báo lại, khoảng thời gian giãn cách linh hoạt (mặc định 5 phút).
 
-### 2. Video nền báo thức (Video Alarm Background - Mới)
+### 2. Video nền báo thức (Video Alarm Background)
 - Cho phép người dùng **chọn bất kỳ video nào từ thư viện máy** làm màn hình nền khi chuông reo.
 - Tự động sao chép video vào vùng lưu trữ an toàn của ứng dụng để tránh bị mất file gốc.
 - Khi báo thức kêu, video tự động phát toàn màn hình lặp lại (`looping`) kèm lớp phủ gradient bóng mờ giúp giờ và nút bấm luôn sắc nét.
@@ -82,6 +85,27 @@ lib/
    ```bash
    flutter run
    ```
+
+---
+
+## 📦 Đóng gói ứng dụng (Build Release APK)
+
+Để tạo file cài đặt APK bản phát hành (Release):
+
+```bash
+cd wake_up
+flutter build apk --release
+```
+
+File APK xuất xưởng sẽ nằm tại:
+```
+wake_up/build/app/outputs/flutter-apk/app-release.apk
+```
+
+### Cài đặt lên thiết bị qua ADB:
+```bash
+adb install -r wake_up/build/app/outputs/flutter-apk/app-release.apk
+```
 
 ---
 
