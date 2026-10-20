@@ -14,6 +14,7 @@ class AlarmModel {
   final int? soundId;
   final int? mediaId;
   final String? mediaPath;
+  final String? soundPath;
   final int snoozeIntervalMinutes;
   final int snoozeMaxCount;
   final String? timezone;
@@ -28,6 +29,7 @@ class AlarmModel {
     this.soundId,
     this.mediaId,
     this.mediaPath,
+    this.soundPath,
     this.snoozeIntervalMinutes = 5,
     this.snoozeMaxCount = 3,
     this.timezone,
@@ -49,6 +51,7 @@ class AlarmModel {
     int? soundId,
     int? mediaId,
     String? mediaPath,
+    String? soundPath,
     int? snoozeIntervalMinutes,
     int? snoozeMaxCount,
     String? timezone,
@@ -63,6 +66,7 @@ class AlarmModel {
       soundId: soundId ?? this.soundId,
       mediaId: mediaId ?? this.mediaId,
       mediaPath: mediaPath ?? this.mediaPath,
+      soundPath: soundPath ?? this.soundPath,
       snoozeIntervalMinutes:
           snoozeIntervalMinutes ?? this.snoozeIntervalMinutes,
       snoozeMaxCount: snoozeMaxCount ?? this.snoozeMaxCount,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -35,6 +36,29 @@ class MediaService {
     final targetPath = p.join(targetDir.path, fileName);
 
     await File(pickedFile.path).copy(targetPath);
+    return targetPath;
+  }
+
+  /// Mở trình chọn file âm thanh trên thiết bị và sao chép vào thư mục nội bộ an toàn.
+  /// Hỗ trợ các định dạng: mp3, wav, m4a, flac, ogg, aac.
+  /// Trả về đường dẫn file đã sao chép, hoặc null nếu người dùng hủy chọn.
+  Future<String?> pickAndSaveAudio() async {
+    final result = await FilePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['mp3', 'wav', 'm4a', 'flac', 'ogg', 'aac'],
+    );
+
+    if (result.isEmpty || result.first.path == null) {
+      return null;
+    }
+
+    final originalPath = result.first.path!;
+    final targetDir = await _customMediaDir;
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final fileName = 'sound_${timestamp}_${p.basename(originalPath)}';
+    final targetPath = p.join(targetDir.path, fileName);
+
+    await File(originalPath).copy(targetPath);
     return targetPath;
   }
 

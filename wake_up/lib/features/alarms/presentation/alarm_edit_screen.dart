@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../media/data/media_service.dart';
+import '../../media/domain/alarm_sound.dart';
+import '../../media/presentation/sound_picker_screen.dart';
 import '../domain/alarm_model.dart';
 import '../domain/next_alarm_calculator.dart';
 import 'providers/alarm_providers.dart';
@@ -27,6 +29,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
   String _label = '';
   WakeMode _mode = WakeMode.normal;
   String? _mediaPath;
+  String? _soundPath;
   int _snoozeInterval = 5;
   int _snoozeMaxCount = 3;
   bool _isLoading = true;
@@ -53,6 +56,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
           _label = alarm.label;
           _mode = alarm.mode;
           _mediaPath = alarm.mediaPath;
+          _soundPath = alarm.soundPath;
           _snoozeInterval = alarm.snoozeIntervalMinutes;
           _snoozeMaxCount = alarm.snoozeMaxCount;
         });
@@ -145,6 +149,21 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
                       onChanged: (value) => _label = value,
                     ),
                   ),
+                ),
+
+                // Âm thanh
+                CupertinoListTile(
+                  backgroundColor: AppTheme.surfaceDark,
+                  title: Text(
+                    l10n.sound,
+                    style: const TextStyle(color: AppTheme.labelPrimary),
+                  ),
+                  additionalInfo: Text(
+                    AlarmSound.getDisplayName(_soundPath),
+                    style: const TextStyle(color: AppTheme.labelSecondary),
+                  ),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: () => _openSoundPicker(context),
                 ),
 
                 // Báo lại
@@ -412,6 +431,19 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
     );
   }
 
+  Future<void> _openSoundPicker(BuildContext context) async {
+    final result = await Navigator.of(context).push<SoundSelection>(
+      CupertinoPageRoute(
+        builder: (_) => SoundPickerScreen(initialSoundPath: _soundPath),
+      ),
+    );
+    if (result != null && mounted) {
+      setState(() {
+        _soundPath = result.soundPath;
+      });
+    }
+  }
+
   Future<void> _pickVideo() async {
     final mediaService = MediaService();
     final savedPath = await mediaService.pickAndSaveVideo();
@@ -447,6 +479,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
       label: _label,
       mode: _mode,
       mediaPath: _mediaPath,
+      soundPath: _soundPath,
       snoozeIntervalMinutes: _snoozeInterval,
       snoozeMaxCount: _snoozeMaxCount,
       enabled: true,
@@ -472,6 +505,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
         alarmId: alarmId,
         scheduledTime: nextTime,
         label: _label,
+        soundPath: _soundPath,
       );
     }
 

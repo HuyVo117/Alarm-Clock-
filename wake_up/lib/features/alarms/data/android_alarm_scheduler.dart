@@ -19,11 +19,12 @@ class AndroidAlarmScheduler implements AlarmScheduler {
     required int alarmId,
     required DateTime scheduledTime,
     required String label,
+    String? soundPath,
   }) async {
     final alarmSettings = alarm_pkg.AlarmSettings(
       id: alarmId,
       dateTime: scheduledTime,
-      assetAudioPath: 'assets/audio/alarm.mp3',
+      assetAudioPath: soundPath ?? 'assets/audio/alarm.mp3',
       notificationSettings: alarm_pkg.NotificationSettings(
         title: 'Wake Up',
         body: label.isNotEmpty ? label : 'Báo thức',
@@ -40,7 +41,7 @@ class AndroidAlarmScheduler implements AlarmScheduler {
     );
 
     await alarm_pkg.Alarm.set(alarmSettings: alarmSettings);
-    debugPrint('[AndroidAlarmScheduler] Đã lên lịch alarm #$alarmId lúc $scheduledTime');
+    debugPrint('[AndroidAlarmScheduler] Đã lên lịch alarm #$alarmId lúc $scheduledTime với sound: ${soundPath ?? "default"}');
   }
 
   @override
@@ -66,6 +67,7 @@ class AndroidAlarmScheduler implements AlarmScheduler {
           alarmId: alarm.id!,
           scheduledTime: nextTime,
           label: alarm.label,
+          soundPath: alarm.soundPath,
         );
       } else {
         await _repository.toggleAlarm(alarm.id!, false);

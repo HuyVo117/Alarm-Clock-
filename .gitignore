@@ -1,2 +1,4 @@
 Awake-AlarmApp-master/
 *.png
+.kotlin/
+**/android/.kotlin/

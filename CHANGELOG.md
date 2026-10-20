@@ -4,6 +4,36 @@ Tất cả các thay đổi và tiến độ phát triển qua từng giai đo�
 
 ---
 
+## [0.4.0] - 2026-10-20 — Tùy chỉnh Âm thanh Báo thức & Trình phát Nhạc chuông
+
+### ✨ Tính năng mới
+- **Trình chọn âm thanh báo thức chuẩn giao diện iOS (`SoundPickerScreen`)**:
+  - Cho phép người dùng tùy chọn nhạc chuông cho từng báo thức riêng biệt trong màn hình `AlarmEditScreen`.
+  - Hiển thị mục **Âm thanh** với tên nhạc chuông đang chọn và mũi tên mở danh sách theo đúng trải nghiệm Apple Clock.
+  - **Nghe thử trực tiếp (`Live Audio Preview`)**: Tích hợp `just_audio` để phát ngay âm thanh nghe thử khi chạm vào bất kỳ lựa chọn nào, có dấu tick cam đánh dấu mục đã chọn.
+- **Kho âm thanh có sẵn đa dạng (`assets/audio/`)**:
+  - *Mặc định hệ thống* (System Default Alarm Sound).
+  - *Cổ điển (Classic)*: Chuông báo thức truyền thống dồn dập.
+  - *Radar*: Nhịp điệu radar thôi thúc quen thuộc.
+  - *Chuông ngân (Gentle Chime)*: Hợp âm chuông ngân dịu nhẹ cho buổi sáng thư thái.
+  - *Đồng hồ điện tử (Digital Beep)*: Tiếng tít tít kép nhịp đôi phong cách điện tử cổ điển.
+- **Chọn nhạc chuông tùy chỉnh từ máy**:
+  - Tích hợp `FilePicker` cho phép người dùng nạp file nhạc từ thiết bị (`.mp3`, `.wav`, `.m4a`, `.flac`, `.ogg`, `.aac`).
+  - Tự động sao chép an toàn vào thư mục nội bộ ứng dụng (`app_flutter/custom_media`) đảm bảo báo thức kêu đúng nhạc ngay cả khi file tải về bị di chuyển hay xóa.
+- **Nâng cấp Cơ sở dữ liệu Drift Schema v3**:
+  - Thêm cột `soundPath` vào bảng `Alarms` (`schemaVersion => 3`) kèm kịch bản `MigrationStrategy` an toàn tuyệt đối.
+  - `AlarmModel` và `AlarmRepository` đồng bộ hóa đầy đủ trường `soundPath`.
+- **Tích hợp sâu vào hệ thống đánh thức**:
+  - `AndroidAlarmScheduler` truyền đường dẫn `soundPath` trực tiếp vào dịch vụ chuông báo nền tảng.
+  - `AlarmRingingScreen` bảo lưu nhạc chuông đã chọn khi bấm Báo lại (`_snooze`) hoặc tự lên lịch vòng lặp tiếp theo (`_stop`).
+
+### 🧪 Kiểm thử & Chất lượng mã nguồn
+- Bổ sung unit test `alarm_sound_test.dart` và `alarm_model_test.dart`.
+- Đạt 28/28 unit test pass 100%.
+- Kiểm tra `flutter analyze` sạch hoàn toàn (0 issue).
+
+---
+
 ## [0.3.0] - 2026-10-20 — Giai đoạn 2: Báo thức Video & Kích hoạt thiết bị thật
 
 ### ✨ Tính năng mới

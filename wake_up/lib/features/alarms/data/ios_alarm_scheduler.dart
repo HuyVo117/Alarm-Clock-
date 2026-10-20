@@ -29,6 +29,7 @@ class IosAlarmScheduler implements AlarmScheduler {
     required int alarmId,
     required DateTime scheduledTime,
     required String label,
+    String? soundPath,
   }) async {
     if (!_isIos26OrAbove) {
       debugPrint('[IosAlarmScheduler] iOS < 26: không hỗ trợ báo thức');
@@ -37,7 +38,7 @@ class IosAlarmScheduler implements AlarmScheduler {
 
     // TODO: Tích hợp flutter_alarmkit khi build trên Mac
     debugPrint(
-      '[IosAlarmScheduler] Đã lên lịch alarm #$alarmId lúc $scheduledTime '
+      '[IosAlarmScheduler] Đã lên lịch alarm #$alarmId lúc $scheduledTime với sound $soundPath '
       '(TODO: cần tích hợp AlarmKit trên Mac)',
     );
   }
@@ -65,6 +66,7 @@ class IosAlarmScheduler implements AlarmScheduler {
           alarmId: alarm.id!,
           scheduledTime: nextTime,
           label: alarm.label,
+          soundPath: alarm.soundPath,
         );
       } else {
         await _repository.toggleAlarm(alarm.id!, false);

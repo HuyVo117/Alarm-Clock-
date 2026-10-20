@@ -16,12 +16,19 @@
 - **Tính toán lần kêu kế tiếp**: Thuật toán Dart thuần tính thời điểm reo chính xác, tự bù qua nửa đêm, cuối tháng, cuối năm.
 - **Hệ thống Báo lại (Snooze)**: Giới hạn số lần báo lại, khoảng thời gian giãn cách linh hoạt (mặc định 5 phút).
 
-### 2. Video nền báo thức (Video Alarm Background)
+### 2. Tùy chỉnh Âm thanh Báo thức (Sound Settings & Ringtone Picker)
+- **Giao diện chọn âm thanh iOS Clock (`SoundPickerScreen`)**:
+  - Tích hợp mục **Âm thanh** ngay trong màn hình chỉnh sửa báo thức với tên âm thanh hiện tại và mũi tên điều hướng.
+  - **Nghe thử trực tiếp (`Live Audio Preview`)**: Chạm vào bất kỳ nhạc chuông nào để nghe thử ngay lập tức qua `just_audio`.
+  - **Kho nhạc chuông có sẵn đa dạng**: *Mặc định hệ thống*, *Cổ điển (Classic)*, *Radar*, *Chuông ngân (Gentle Chime)*, *Đồng hồ điện tử (Digital Beep)*.
+  - **Chọn file âm thanh từ máy**: Hỗ trợ nạp các định dạng `.mp3`, `.wav`, `.m4a`, `.flac`, `.ogg`, `.aac` từ bộ nhớ máy qua `FilePicker` và sao chép an toàn vào sandbox nội bộ của ứng dụng.
+
+### 3. Video nền báo thức (Video Alarm Background)
 - Cho phép người dùng **chọn bất kỳ video nào từ thư viện máy** làm màn hình nền khi chuông reo.
 - Tự động sao chép video vào vùng lưu trữ an toàn của ứng dụng để tránh bị mất file gốc.
 - Khi báo thức kêu, video tự động phát toàn màn hình lặp lại (`looping`) kèm lớp phủ gradient bóng mờ giúp giờ và nút bấm luôn sắc nét.
 
-### 3. Khả năng đánh thức mạnh mẽ (Reliability on Device)
+### 4. Khả năng đánh thức mạnh mẽ (Reliability on Device)
 - **Tự động bật sáng màn hình khóa**: Sử dụng `setShowWhenLocked(true)` và `setTurnScreenOn(true)` cùng dịch vụ Foreground Service và Full-Screen Intent để đánh thức điện thoại ngay cả khi tắt màn hình.
 - **Quản lý quyền chặt chẽ**: Tự động xin cấp quyền gửi thông báo, quyền lên lịch báo thức chính xác (`SCHEDULE_EXACT_ALARM`) và quyền bỏ qua tối ưu hóa pin để không bị hệ điều hành (ColorOS, MIUI, OneUI...) tắt ngầm.
 - **Tự động phục hồi sau khởi động lại máy**: Hỗ trợ `RECEIVE_BOOT_COMPLETED` để tự lên lịch lại toàn bộ báo thức sau khi khởi động lại thiết bị.
@@ -46,7 +53,9 @@ lib/
 │   │   ├── domain/            # Pure Dart logic (NextAlarmCalculator, SnoozeLogic, AlarmModel)
 │   │   └── presentation/      # AlarmListScreen, AlarmEditScreen, AlarmRingingScreen
 │   ├── media/
-│   │   └── data/              # MediaService (chọn và lưu video tùy chỉnh)
+│   │   ├── data/              # MediaService (chọn & lưu video/âm thanh tùy chỉnh)
+│   │   ├── domain/            # AlarmSound (model âm thanh có sẵn, helper phân giải tên)
+│   │   └── presentation/      # SoundPickerScreen (trình chọn & nghe thử nhạc chuông iOS)
 │   ├── bedtime/               # Tab Giờ ngủ
 │   ├── world_clock/           # Tab Đồng hồ thế giới
 │   ├── garden/                # Tab Khu vườn ngủ ngon
@@ -110,7 +119,9 @@ adb install -r wake_up/build/app/outputs/flutter-apk/app-release.apk
 ---
 
 ## 🧪 Kiểm thử (Testing)
-Dự án áp dụng quy tắc kiểm thử nghiêm ngặt: toàn bộ logic nghiệp vụ (tính ngày kế tiếp, logic báo lại, chuyển đổi múi giờ) là **Dart thuần**, không dính dáng UI hay plugin để bảo đảm 100% kiểm thử tự động:
-- `next_alarm_calculator_test.dart`: 13 kịch bản kiểm thử ranh giới thời gian.
-- `snooze_logic_test.dart`: 8 kịch bản kiểm thử giới hạn số lần báo lại.
+Dự án áp dụng quy tắc kiểm thử nghiêm ngặt: toàn bộ logic nghiệp vụ (tính ngày kế tiếp, logic báo lại, model báo thức, danh mục âm thanh) là **Dart thuần**, không dính dáng UI hay plugin để bảo đảm 100% kiểm thử tự động (28/28 tests passed):
+- `next_alarm_calculator_test.dart`: 13 kịch bản kiểm thử ranh giới thời gian (nửa đêm, chuyển tháng, năm).
+- `snooze_logic_test.dart`: 8 kịch bản kiểm thử giới hạn số lần báo lại và interval.
+- `alarm_sound_test.dart`: 4 kịch bản kiểm thử danh sách âm thanh có sẵn, phân giải tên và bộ bọc `SoundSelection`.
+- `alarm_model_test.dart`: 2 kịch bản kiểm thử trường `soundPath` qua `copyWith` và giá trị mặc định.
 - `widget_test.dart`: Kiểm thử khởi chạy ứng dụng.

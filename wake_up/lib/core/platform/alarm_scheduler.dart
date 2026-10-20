@@ -4,10 +4,12 @@ abstract class AlarmScheduler {
   /// Lên lịch một báo thức sẽ reo vào [scheduledTime].
   /// [alarmId] là ID duy nhất từ database.
   /// [label] là nhãn hiển thị khi reo.
+  /// [soundPath] là đường dẫn file âm thanh hoặc asset âm thanh.
   Future<void> scheduleAlarm({
     required int alarmId,
     required DateTime scheduledTime,
     required String label,
+    String? soundPath,
   });
 
   /// Hủy một báo thức đã lên lịch.

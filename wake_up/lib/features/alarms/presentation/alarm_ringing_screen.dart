@@ -248,6 +248,7 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
       alarmId: widget.alarmId,
       scheduledTime: snoozeTime,
       label: _alarm?.label ?? 'Báo lại',
+      soundPath: _alarm?.soundPath,
     );
 
     if (mounted) {
@@ -274,6 +275,7 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
             alarmId: _alarm!.id!,
             scheduledTime: next,
             label: _alarm!.label,
+            soundPath: _alarm!.soundPath,
           );
         }
       } else {
