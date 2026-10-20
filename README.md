@@ -97,15 +97,17 @@ lib/
 
 ---
 
-## 📦 Đóng gói ứng dụng (Build Release APK)
+## 📦 Tải về Bản Phát Hành (Release APK v0.4.1)
 
-Để tạo file cài đặt APK bản phát hành (Release):
+Người dùng có thể tải trực tiếp file cài đặt APK đã đóng gói sẵn:
+- **Tải file APK trực tiếp**: [📥 wake-up-v0.4.1.apk](https://github.com/HuyVo117/Alarm-Clock-/raw/main/release/wake-up-v0.4.1.apk)
+- **Xem phiên bản trên GitHub**: [🏷️ Release v0.4.1](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.4.1)
 
+### Tự tạo file cài đặt APK từ mã nguồn:
 ```bash
 cd wake_up
 flutter build apk --release
 ```
-
 File APK xuất xưởng sẽ nằm tại:
 ```
 wake_up/build/app/outputs/flutter-apk/app-release.apk
