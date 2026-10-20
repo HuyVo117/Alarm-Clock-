@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wake_up/core/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/alarms/presentation/alarm_edit_screen.dart';
@@ -125,7 +125,7 @@ class _MainTabScaffold extends StatelessWidget {
           index,
           initialLocation: index == navigationShell.currentIndex,
         ),
-        backgroundColor: AppTheme.backgroundBlack.withOpacity(0.9),
+        backgroundColor: AppTheme.backgroundBlack.withValues(alpha: 0.9),
         activeColor: AppTheme.accentOrange,
         inactiveColor: AppTheme.labelTertiary,
         items: [

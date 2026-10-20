@@ -84,7 +84,7 @@ class AlarmRepository {
 
   /// Bật/tắt báo thức
   Future<void> toggleAlarm(int id, bool enabled) async {
-    (await (_db.update(_db.alarms)..where((t) => t.id.equals(id))))
+    await (_db.update(_db.alarms)..where((t) => t.id.equals(id)))
         .write(AlarmsCompanion(enabled: Value(enabled)));
   }
 
