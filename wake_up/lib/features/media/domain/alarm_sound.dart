@@ -46,6 +46,12 @@ class AlarmSound {
       path: 'assets/audio/digital_beep.wav',
       isAsset: true,
     ),
+    AlarmSound(
+      id: 'none',
+      title: 'Không có âm thanh (Dùng nhạc từ video)',
+      path: 'none',
+      isAsset: false,
+    ),
   ];
 
   /// Trả về tên hiển thị tương ứng với [path]

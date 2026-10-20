@@ -59,6 +59,13 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
           try {
             await controller.initialize();
             await controller.setLooping(true);
+            if (alarm.soundPath == 'none') {
+              // Dùng nhạc từ chính video nền
+              await controller.setVolume(1.0);
+            } else {
+              // Có nhạc chuông riêng: tắt tiếng video để không bị đè âm thanh
+              await controller.setVolume(0.0);
+            }
             await controller.play();
             if (mounted) {
               setState(() {
@@ -106,7 +113,7 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
               ),
             ),
 
-          // Lớp 2: Lớp phủ mờ tối giúp chữ hiển thị sắc nét trên video
+          // Lớp 2: Lớp phủ gradient nhẹ giúp video luôn rõ ràng, sống động
           if (_videoController != null && _videoController!.value.isInitialized)
             Container(
               decoration: BoxDecoration(
@@ -114,8 +121,8 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    AppTheme.backgroundBlack.withValues(alpha: 0.5),
-                    AppTheme.backgroundBlack.withValues(alpha: 0.8),
+                    AppTheme.backgroundBlack.withValues(alpha: 0.1),
+                    AppTheme.backgroundBlack.withValues(alpha: 0.3),
                   ],
                 ),
               ),
@@ -132,9 +139,16 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
                 Text(
                   label,
                   style: const TextStyle(
-                    color: AppTheme.labelSecondary,
+                    color: AppTheme.labelPrimary,
                     fontSize: 22,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
+                    shadows: [
+                      Shadow(
+                        color: Color(0xDD000000),
+                        blurRadius: 10,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -155,12 +169,30 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text(timeStr, style: AppTheme.timeDisplayLarge),
+                          Text(
+                            timeStr,
+                            style: AppTheme.timeDisplayLarge.copyWith(
+                              shadows: const [
+                                Shadow(
+                                  color: Color(0xEE000000),
+                                  blurRadius: 16,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(width: 8),
                           Text(
                             periodStr,
                             style: AppTheme.timeDisplayMedium.copyWith(
                               fontSize: 34,
+                              shadows: const [
+                                Shadow(
+                                  color: Color(0xEE000000),
+                                  blurRadius: 16,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -172,6 +204,13 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
                         CupertinoIcons.bell_fill,
                         color: AppTheme.accentOrange,
                         size: 32,
+                        shadows: [
+                          Shadow(
+                            color: Color(0xDD000000),
+                            blurRadius: 12,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                       ),
                     ],
                   ),

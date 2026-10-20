@@ -21,21 +21,28 @@ class AndroidAlarmScheduler implements AlarmScheduler {
     required String label,
     String? soundPath,
   }) async {
+    final isNone = soundPath == 'none';
+    final assetAudio = isNone
+        ? 'assets/audio/silent.wav'
+        : (soundPath ?? 'assets/audio/alarm.mp3');
+
     final alarmSettings = alarm_pkg.AlarmSettings(
       id: alarmId,
       dateTime: scheduledTime,
-      assetAudioPath: soundPath ?? 'assets/audio/alarm.mp3',
+      assetAudioPath: assetAudio,
       notificationSettings: alarm_pkg.NotificationSettings(
         title: 'Wake Up',
         body: label.isNotEmpty ? label : 'Báo thức',
         stopButton: 'Dừng',
       ),
-      loopAudio: true,
+      loopAudio: !isNone,
       vibrate: true,
-      volumeSettings: alarm_pkg.VolumeSettings.fade(
-        volume: 0.8,
-        fadeDuration: const Duration(seconds: 5),
-      ),
+      volumeSettings: isNone
+          ? const alarm_pkg.VolumeSettings.fixed(volume: 0.0)
+          : alarm_pkg.VolumeSettings.fade(
+              volume: 0.8,
+              fadeDuration: const Duration(seconds: 5),
+            ),
       warningNotificationOnKill: true,
       androidStopAlarmOnTermination: false,
     );

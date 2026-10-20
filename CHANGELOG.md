@@ -4,6 +4,25 @@ Tất cả các thay đổi và tiến độ phát triển qua từng giai đo�
 
 ---
 
+## [0.4.1] - 2026-10-21 — Sửa lỗi lưu báo thức, Hỗ trợ nhạc video & Tối ưu video nền
+
+### 🐛 Sửa lỗi quan trọng (Bug Fix)
+- **Khắc phục triệt để lỗi không lưu được báo thức trên bản Release**:
+  - Phát hiện nguyên nhân: R8 Code Shrinker trong chế độ Release làm mất phương thức reflection `SharedPreferencesApiRegistrar.getAll` của gói `shared_preferences_android` dẫn đến lỗi `NoSuchMethodError` khi lưu báo thức.
+  - Thiết lập cấu hình Gradle `isMinifyEnabled = false`, `isShrinkResources = false` và bổ sung file quy tắc `proguard-rules.pro` giữ nguyên toàn bộ các lớp plugin.
+  - Bổ sung khối bắt lỗi `try-catch` khi lên lịch báo thức trong `_saveAlarm` đảm bảo giao diện luôn phản hồi mượt mà.
+
+### ✨ Cải tiến tính năng
+- **Tùy chọn "Không có âm thanh (Dùng nhạc từ video)"**:
+  - Bổ sung tùy chọn `none` vào danh sách nhạc chuông.
+  - Khi chọn tính năng này, hệ thống sẽ sử dụng file âm thanh im lặng (`silent.wav`) cho native alarm, đồng thời tự động bật âm lượng video nền lên 100% (`setVolume(1.0)`). Người dùng có thể thưởng thức trọn vẹn âm thanh gốc của video mà không bị chuông báo thức đè lên.
+  - Tự động tắt tiếng video nền (`setVolume(0.0)`) khi người dùng chọn nhạc chuông độc lập để tránh xung đột âm thanh.
+- **Làm sáng và rõ nét video nền báo thức**:
+  - Giảm đáng kể độ đậm của lớp phủ gradient tối (từ `0.5 - 0.8` xuống chỉ còn `0.1 - 0.3`) giúp video nền luôn hiển thị rực rỡ, sắc nét và rõ ràng.
+  - Bổ sung hiệu ứng đổ bóng chữ (`Text Drop Shadows`) cho giờ hiển thị, buổi (SA/CH) và nhãn báo thức, đảm bảo thông tin luôn nổi bật và dễ đọc trên mọi khung hình video sáng hoặc tối.
+
+---
+
 ## [0.4.0] - 2026-10-20 — Tùy chỉnh Âm thanh Báo thức & Trình phát Nhạc chuông
 
 ### ✨ Tính năng mới

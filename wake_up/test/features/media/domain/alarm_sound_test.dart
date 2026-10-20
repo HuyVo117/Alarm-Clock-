@@ -10,10 +10,12 @@ void main() {
       expect(AlarmSound.builtInSounds.any((s) => s.path == 'assets/audio/radar.wav'), isTrue); // radar
       expect(AlarmSound.builtInSounds.any((s) => s.path == 'assets/audio/chime.wav'), isTrue); // chime
       expect(AlarmSound.builtInSounds.any((s) => s.path == 'assets/audio/digital_beep.wav'), isTrue); // digital
+      expect(AlarmSound.builtInSounds.any((s) => s.path == 'none'), isTrue); // none (silent for video)
     });
 
     test('getDisplayName returns correct titles for built-ins', () {
       expect(AlarmSound.getDisplayName(null), 'Mặc định hệ thống');
+      expect(AlarmSound.getDisplayName('none'), 'Không có âm thanh (Dùng nhạc từ video)');
       expect(AlarmSound.getDisplayName('assets/audio/alarm.mp3'), 'Cổ điển (Classic)');
       expect(AlarmSound.getDisplayName('assets/audio/radar.wav'), 'Radar (Nhịp điệu dồn dập)');
       expect(AlarmSound.getDisplayName('assets/audio/chime.wav'), 'Chuông ngân (Dịu êm)');

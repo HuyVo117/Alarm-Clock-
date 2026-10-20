@@ -501,12 +501,16 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
       now: DateTime.now(),
     );
     if (nextTime != null) {
-      await scheduler.scheduleAlarm(
-        alarmId: alarmId,
-        scheduledTime: nextTime,
-        label: _label,
-        soundPath: _soundPath,
-      );
+      try {
+        await scheduler.scheduleAlarm(
+          alarmId: alarmId,
+          scheduledTime: nextTime,
+          label: _label,
+          soundPath: _soundPath,
+        );
+      } catch (e) {
+        debugPrint('[AlarmEditScreen] Lỗi khi scheduleAlarm: $e');
+      }
     }
 
     if (mounted) {

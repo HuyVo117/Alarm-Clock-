@@ -50,7 +50,10 @@ class _SoundPickerScreenState extends State<SoundPickerScreen> {
     try {
       await _audioPlayer.stop();
 
-      if (path == null) {
+      if (path == 'none') {
+        // Không có âm thanh: dừng mọi âm thanh nghe thử
+        return;
+      } else if (path == null) {
         // Mặc định hệ thống: phát thử alarm.mp3 mẫu
         await _audioPlayer.setAsset('assets/audio/alarm.mp3');
       } else if (path.startsWith('assets/')) {
