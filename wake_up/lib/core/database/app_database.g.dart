@@ -83,6 +83,17 @@ class $AlarmsTable extends Alarms with TableInfo<$AlarmsTable, Alarm> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _mediaPathMeta = const VerificationMeta(
+    'mediaPath',
+  );
+  @override
+  late final GeneratedColumn<String> mediaPath = GeneratedColumn<String>(
+    'media_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _snoozeIntervalMinutesMeta =
       const VerificationMeta('snoozeIntervalMinutes');
   @override
@@ -152,6 +163,7 @@ class $AlarmsTable extends Alarms with TableInfo<$AlarmsTable, Alarm> {
     mode,
     soundId,
     mediaId,
+    mediaPath,
     snoozeIntervalMinutes,
     snoozeMaxCount,
     challenges,
@@ -209,6 +221,12 @@ class $AlarmsTable extends Alarms with TableInfo<$AlarmsTable, Alarm> {
       context.handle(
         _mediaIdMeta,
         mediaId.isAcceptableOrUnknown(data['media_id']!, _mediaIdMeta),
+      );
+    }
+    if (data.containsKey('media_path')) {
+      context.handle(
+        _mediaPathMeta,
+        mediaPath.isAcceptableOrUnknown(data['media_path']!, _mediaPathMeta),
       );
     }
     if (data.containsKey('snooze_interval_minutes')) {
@@ -284,6 +302,10 @@ class $AlarmsTable extends Alarms with TableInfo<$AlarmsTable, Alarm> {
         DriftSqlType.int,
         data['${effectivePrefix}media_id'],
       ),
+      mediaPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}media_path'],
+      ),
       snoozeIntervalMinutes: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}snooze_interval_minutes'],
@@ -337,6 +359,9 @@ class Alarm extends DataClass implements Insertable<Alarm> {
   /// ID media (video) tùy chỉnh (GĐ 2)
   final int? mediaId;
 
+  /// Đường dẫn file video nền tùy chỉnh (GĐ 2)
+  final String? mediaPath;
+
   /// Khoảng thời gian báo lại (phút)
   final int snoozeIntervalMinutes;
 
@@ -359,6 +384,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
     required this.mode,
     this.soundId,
     this.mediaId,
+    this.mediaPath,
     required this.snoozeIntervalMinutes,
     required this.snoozeMaxCount,
     this.challenges,
@@ -380,6 +406,9 @@ class Alarm extends DataClass implements Insertable<Alarm> {
     }
     if (!nullToAbsent || mediaId != null) {
       map['media_id'] = Variable<int>(mediaId);
+    }
+    if (!nullToAbsent || mediaPath != null) {
+      map['media_path'] = Variable<String>(mediaPath);
     }
     map['snooze_interval_minutes'] = Variable<int>(snoozeIntervalMinutes);
     map['snooze_max_count'] = Variable<int>(snoozeMaxCount);
@@ -408,6 +437,9 @@ class Alarm extends DataClass implements Insertable<Alarm> {
       mediaId: mediaId == null && nullToAbsent
           ? const Value.absent()
           : Value(mediaId),
+      mediaPath: mediaPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(mediaPath),
       snoozeIntervalMinutes: Value(snoozeIntervalMinutes),
       snoozeMaxCount: Value(snoozeMaxCount),
       challenges: challenges == null && nullToAbsent
@@ -433,6 +465,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
       mode: serializer.fromJson<String>(json['mode']),
       soundId: serializer.fromJson<int?>(json['soundId']),
       mediaId: serializer.fromJson<int?>(json['mediaId']),
+      mediaPath: serializer.fromJson<String?>(json['mediaPath']),
       snoozeIntervalMinutes: serializer.fromJson<int>(
         json['snoozeIntervalMinutes'],
       ),
@@ -453,6 +486,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
       'mode': serializer.toJson<String>(mode),
       'soundId': serializer.toJson<int?>(soundId),
       'mediaId': serializer.toJson<int?>(mediaId),
+      'mediaPath': serializer.toJson<String?>(mediaPath),
       'snoozeIntervalMinutes': serializer.toJson<int>(snoozeIntervalMinutes),
       'snoozeMaxCount': serializer.toJson<int>(snoozeMaxCount),
       'challenges': serializer.toJson<String?>(challenges),
@@ -469,6 +503,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
     String? mode,
     Value<int?> soundId = const Value.absent(),
     Value<int?> mediaId = const Value.absent(),
+    Value<String?> mediaPath = const Value.absent(),
     int? snoozeIntervalMinutes,
     int? snoozeMaxCount,
     Value<String?> challenges = const Value.absent(),
@@ -482,6 +517,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
     mode: mode ?? this.mode,
     soundId: soundId.present ? soundId.value : this.soundId,
     mediaId: mediaId.present ? mediaId.value : this.mediaId,
+    mediaPath: mediaPath.present ? mediaPath.value : this.mediaPath,
     snoozeIntervalMinutes: snoozeIntervalMinutes ?? this.snoozeIntervalMinutes,
     snoozeMaxCount: snoozeMaxCount ?? this.snoozeMaxCount,
     challenges: challenges.present ? challenges.value : this.challenges,
@@ -499,6 +535,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
       mode: data.mode.present ? data.mode.value : this.mode,
       soundId: data.soundId.present ? data.soundId.value : this.soundId,
       mediaId: data.mediaId.present ? data.mediaId.value : this.mediaId,
+      mediaPath: data.mediaPath.present ? data.mediaPath.value : this.mediaPath,
       snoozeIntervalMinutes: data.snoozeIntervalMinutes.present
           ? data.snoozeIntervalMinutes.value
           : this.snoozeIntervalMinutes,
@@ -523,6 +560,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
           ..write('mode: $mode, ')
           ..write('soundId: $soundId, ')
           ..write('mediaId: $mediaId, ')
+          ..write('mediaPath: $mediaPath, ')
           ..write('snoozeIntervalMinutes: $snoozeIntervalMinutes, ')
           ..write('snoozeMaxCount: $snoozeMaxCount, ')
           ..write('challenges: $challenges, ')
@@ -541,6 +579,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
     mode,
     soundId,
     mediaId,
+    mediaPath,
     snoozeIntervalMinutes,
     snoozeMaxCount,
     challenges,
@@ -558,6 +597,7 @@ class Alarm extends DataClass implements Insertable<Alarm> {
           other.mode == this.mode &&
           other.soundId == this.soundId &&
           other.mediaId == this.mediaId &&
+          other.mediaPath == this.mediaPath &&
           other.snoozeIntervalMinutes == this.snoozeIntervalMinutes &&
           other.snoozeMaxCount == this.snoozeMaxCount &&
           other.challenges == this.challenges &&
@@ -573,6 +613,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
   final Value<String> mode;
   final Value<int?> soundId;
   final Value<int?> mediaId;
+  final Value<String?> mediaPath;
   final Value<int> snoozeIntervalMinutes;
   final Value<int> snoozeMaxCount;
   final Value<String?> challenges;
@@ -586,6 +627,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
     this.mode = const Value.absent(),
     this.soundId = const Value.absent(),
     this.mediaId = const Value.absent(),
+    this.mediaPath = const Value.absent(),
     this.snoozeIntervalMinutes = const Value.absent(),
     this.snoozeMaxCount = const Value.absent(),
     this.challenges = const Value.absent(),
@@ -600,6 +642,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
     this.mode = const Value.absent(),
     this.soundId = const Value.absent(),
     this.mediaId = const Value.absent(),
+    this.mediaPath = const Value.absent(),
     this.snoozeIntervalMinutes = const Value.absent(),
     this.snoozeMaxCount = const Value.absent(),
     this.challenges = const Value.absent(),
@@ -614,6 +657,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
     Expression<String>? mode,
     Expression<int>? soundId,
     Expression<int>? mediaId,
+    Expression<String>? mediaPath,
     Expression<int>? snoozeIntervalMinutes,
     Expression<int>? snoozeMaxCount,
     Expression<String>? challenges,
@@ -628,6 +672,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
       if (mode != null) 'mode': mode,
       if (soundId != null) 'sound_id': soundId,
       if (mediaId != null) 'media_id': mediaId,
+      if (mediaPath != null) 'media_path': mediaPath,
       if (snoozeIntervalMinutes != null)
         'snooze_interval_minutes': snoozeIntervalMinutes,
       if (snoozeMaxCount != null) 'snooze_max_count': snoozeMaxCount,
@@ -645,6 +690,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
     Value<String>? mode,
     Value<int?>? soundId,
     Value<int?>? mediaId,
+    Value<String?>? mediaPath,
     Value<int>? snoozeIntervalMinutes,
     Value<int>? snoozeMaxCount,
     Value<String?>? challenges,
@@ -659,6 +705,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
       mode: mode ?? this.mode,
       soundId: soundId ?? this.soundId,
       mediaId: mediaId ?? this.mediaId,
+      mediaPath: mediaPath ?? this.mediaPath,
       snoozeIntervalMinutes:
           snoozeIntervalMinutes ?? this.snoozeIntervalMinutes,
       snoozeMaxCount: snoozeMaxCount ?? this.snoozeMaxCount,
@@ -692,6 +739,9 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
     if (mediaId.present) {
       map['media_id'] = Variable<int>(mediaId.value);
     }
+    if (mediaPath.present) {
+      map['media_path'] = Variable<String>(mediaPath.value);
+    }
     if (snoozeIntervalMinutes.present) {
       map['snooze_interval_minutes'] = Variable<int>(
         snoozeIntervalMinutes.value,
@@ -722,6 +772,7 @@ class AlarmsCompanion extends UpdateCompanion<Alarm> {
           ..write('mode: $mode, ')
           ..write('soundId: $soundId, ')
           ..write('mediaId: $mediaId, ')
+          ..write('mediaPath: $mediaPath, ')
           ..write('snoozeIntervalMinutes: $snoozeIntervalMinutes, ')
           ..write('snoozeMaxCount: $snoozeMaxCount, ')
           ..write('challenges: $challenges, ')
@@ -751,6 +802,7 @@ typedef $$AlarmsTableCreateCompanionBuilder = AlarmsCompanion Function({
   Value<String> mode,
   Value<int?> soundId,
   Value<int?> mediaId,
+  Value<String?> mediaPath,
   Value<int> snoozeIntervalMinutes,
   Value<int> snoozeMaxCount,
   Value<String?> challenges,
@@ -765,6 +817,7 @@ typedef $$AlarmsTableUpdateCompanionBuilder = AlarmsCompanion Function({
   Value<String> mode,
   Value<int?> soundId,
   Value<int?> mediaId,
+  Value<String?> mediaPath,
   Value<int> snoozeIntervalMinutes,
   Value<int> snoozeMaxCount,
   Value<String?> challenges,
@@ -813,6 +866,11 @@ class $$AlarmsTableFilterComposer
 
   ColumnFilters<int> get mediaId => $composableBuilder(
     column: $table.mediaId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get mediaPath => $composableBuilder(
+    column: $table.mediaPath,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -886,6 +944,11 @@ class $$AlarmsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get mediaPath => $composableBuilder(
+    column: $table.mediaPath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get snoozeIntervalMinutes => $composableBuilder(
     column: $table.snoozeIntervalMinutes,
     builder: (column) => ColumnOrderings(column),
@@ -944,6 +1007,9 @@ class $$AlarmsTableAnnotationComposer
   GeneratedColumn<int> get mediaId =>
       $composableBuilder(column: $table.mediaId, builder: (column) => column);
 
+  GeneratedColumn<String> get mediaPath =>
+      $composableBuilder(column: $table.mediaPath, builder: (column) => column);
+
   GeneratedColumn<int> get snoozeIntervalMinutes => $composableBuilder(
     column: $table.snoozeIntervalMinutes,
     builder: (column) => column,
@@ -1001,6 +1067,7 @@ class $$AlarmsTableTableManager
                 Value<String> mode = const Value.absent(),
                 Value<int?> soundId = const Value.absent(),
                 Value<int?> mediaId = const Value.absent(),
+                Value<String?> mediaPath = const Value.absent(),
                 Value<int> snoozeIntervalMinutes = const Value.absent(),
                 Value<int> snoozeMaxCount = const Value.absent(),
                 Value<String?> challenges = const Value.absent(),
@@ -1014,6 +1081,7 @@ class $$AlarmsTableTableManager
                 mode: mode,
                 soundId: soundId,
                 mediaId: mediaId,
+                mediaPath: mediaPath,
                 snoozeIntervalMinutes: snoozeIntervalMinutes,
                 snoozeMaxCount: snoozeMaxCount,
                 challenges: challenges,
@@ -1029,6 +1097,7 @@ class $$AlarmsTableTableManager
                 Value<String> mode = const Value.absent(),
                 Value<int?> soundId = const Value.absent(),
                 Value<int?> mediaId = const Value.absent(),
+                Value<String?> mediaPath = const Value.absent(),
                 Value<int> snoozeIntervalMinutes = const Value.absent(),
                 Value<int> snoozeMaxCount = const Value.absent(),
                 Value<String?> challenges = const Value.absent(),
@@ -1042,6 +1111,7 @@ class $$AlarmsTableTableManager
                 mode: mode,
                 soundId: soundId,
                 mediaId: mediaId,
+                mediaPath: mediaPath,
                 snoozeIntervalMinutes: snoozeIntervalMinutes,
                 snoozeMaxCount: snoozeMaxCount,
                 challenges: challenges,

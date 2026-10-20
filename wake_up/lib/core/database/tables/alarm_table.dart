@@ -26,6 +26,9 @@ class Alarms extends Table {
   /// ID media (video) tùy chỉnh (GĐ 2)
   IntColumn get mediaId => integer().nullable()();
 
+  /// Đường dẫn file video nền tùy chỉnh (GĐ 2)
+  TextColumn get mediaPath => text().nullable()();
+
   /// Khoảng thời gian báo lại (phút)
   IntColumn get snoozeIntervalMinutes =>
       integer().withDefault(const Constant(5))();

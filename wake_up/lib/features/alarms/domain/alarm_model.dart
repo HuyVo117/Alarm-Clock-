@@ -13,6 +13,7 @@ class AlarmModel {
   final WakeMode mode;
   final int? soundId;
   final int? mediaId;
+  final String? mediaPath;
   final int snoozeIntervalMinutes;
   final int snoozeMaxCount;
   final String? timezone;
@@ -26,6 +27,7 @@ class AlarmModel {
     this.mode = WakeMode.normal,
     this.soundId,
     this.mediaId,
+    this.mediaPath,
     this.snoozeIntervalMinutes = 5,
     this.snoozeMaxCount = 3,
     this.timezone,
@@ -46,6 +48,7 @@ class AlarmModel {
     WakeMode? mode,
     int? soundId,
     int? mediaId,
+    String? mediaPath,
     int? snoozeIntervalMinutes,
     int? snoozeMaxCount,
     String? timezone,
@@ -59,6 +62,7 @@ class AlarmModel {
       mode: mode ?? this.mode,
       soundId: soundId ?? this.soundId,
       mediaId: mediaId ?? this.mediaId,
+      mediaPath: mediaPath ?? this.mediaPath,
       snoozeIntervalMinutes:
           snoozeIntervalMinutes ?? this.snoozeIntervalMinutes,
       snoozeMaxCount: snoozeMaxCount ?? this.snoozeMaxCount,

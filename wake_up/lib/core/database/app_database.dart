@@ -15,7 +15,16 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.addColumn(alarms, alarms.mediaPath);
+      }
+    },
+  );
 
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'wake_up_db');

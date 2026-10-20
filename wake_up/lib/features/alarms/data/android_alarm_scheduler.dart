@@ -1,5 +1,6 @@
 import 'package:alarm/alarm.dart' as alarm_pkg;
 import 'package:flutter/foundation.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/platform/alarm_scheduler.dart';
 import '../domain/next_alarm_calculator.dart';
@@ -22,7 +23,7 @@ class AndroidAlarmScheduler implements AlarmScheduler {
     final alarmSettings = alarm_pkg.AlarmSettings(
       id: alarmId,
       dateTime: scheduledTime,
-      assetAudioPath: 'assets/alarm_sound.mp3', // TODO: âm thanh tùy chỉnh ở GĐ 2
+      assetAudioPath: 'assets/audio/alarm.mp3',
       notificationSettings: alarm_pkg.NotificationSettings(
         title: 'Wake Up',
         body: label.isNotEmpty ? label : 'Báo thức',
@@ -35,6 +36,7 @@ class AndroidAlarmScheduler implements AlarmScheduler {
         fadeDuration: const Duration(seconds: 5),
       ),
       warningNotificationOnKill: true,
+      androidStopAlarmOnTermination: false,
     );
 
     await alarm_pkg.Alarm.set(alarmSettings: alarmSettings);
@@ -74,11 +76,18 @@ class AndroidAlarmScheduler implements AlarmScheduler {
 
   @override
   Future<bool> hasRequiredPermissions() async {
-    return true;
+    final notif = await Permission.notification.isGranted;
+    final exact = await Permission.scheduleExactAlarm.isGranted;
+    return notif && exact;
   }
 
   @override
   Future<bool> requestPermissions() async {
-    return true;
+    final notifStatus = await Permission.notification.request();
+    final exactStatus = await Permission.scheduleExactAlarm.request();
+    if (!await Permission.ignoreBatteryOptimizations.isGranted) {
+      await Permission.ignoreBatteryOptimizations.request();
+    }
+    return notifStatus.isGranted && exactStatus.isGranted;
   }
 }

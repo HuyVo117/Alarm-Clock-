@@ -4,7 +4,9 @@ import 'package:wake_up/core/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../media/data/media_service.dart';
 import '../domain/alarm_model.dart';
+import '../domain/next_alarm_calculator.dart';
 import 'providers/alarm_providers.dart';
 import 'widgets/day_picker.dart';
 
@@ -23,6 +25,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
   List<int> _repeatDays = [];
   String _label = '';
   WakeMode _mode = WakeMode.normal;
+  String? _mediaPath;
   int _snoozeInterval = 5;
   int _snoozeMaxCount = 3;
   bool _isLoading = true;
@@ -48,6 +51,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
           _repeatDays = List.from(alarm.repeatDays);
           _label = alarm.label;
           _mode = alarm.mode;
+          _mediaPath = alarm.mediaPath;
           _snoozeInterval = alarm.snoozeIntervalMinutes;
           _snoozeMaxCount = alarm.snoozeMaxCount;
         });
@@ -178,6 +182,41 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
                   ),
                   // GĐ 1: chỉ hỗ trợ "Thường", không cho bấm
                 ),
+              ],
+            ),
+
+            // Video nền báo thức (Giai đoạn 2)
+            CupertinoListSection.insetGrouped(
+              backgroundColor: AppTheme.backgroundBlack,
+              children: [
+                CupertinoListTile(
+                  backgroundColor: AppTheme.surfaceDark,
+                  leading: const Icon(
+                    CupertinoIcons.video_camera_solid,
+                    color: AppTheme.accentOrange,
+                  ),
+                  title: const Text(
+                    'Video nền báo thức',
+                    style: TextStyle(color: AppTheme.labelPrimary),
+                  ),
+                  additionalInfo: Text(
+                    _mediaPath != null ? 'Đã chọn video' : 'Mặc định (đen)',
+                    style: const TextStyle(color: AppTheme.labelSecondary),
+                  ),
+                  trailing: const CupertinoListTileChevron(),
+                  onTap: _pickVideo,
+                ),
+                if (_mediaPath != null)
+                  CupertinoListTile(
+                    backgroundColor: AppTheme.surfaceDark,
+                    title: const Text(
+                      'Xóa video, dùng nền đen',
+                      style: TextStyle(color: AppTheme.destructiveRed),
+                    ),
+                    onTap: () {
+                      setState(() => _mediaPath = null);
+                    },
+                  ),
               ],
             ),
 
@@ -377,6 +416,16 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
     );
   }
 
+  Future<void> _pickVideo() async {
+    final mediaService = MediaService();
+    final savedPath = await mediaService.pickAndSaveVideo();
+    if (savedPath != null && mounted) {
+      setState(() {
+        _mediaPath = savedPath;
+      });
+    }
+  }
+
   Future<void> _saveAlarm() async {
     final repo = ref.read(alarmRepositoryProvider);
 
@@ -401,18 +450,34 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
       repeatDays: _repeatDays,
       label: _label,
       mode: _mode,
+      mediaPath: _mediaPath,
       snoozeIntervalMinutes: _snoozeInterval,
       snoozeMaxCount: _snoozeMaxCount,
       enabled: true,
     );
 
+    int alarmId;
     if (_isEditing) {
       await repo.updateAlarm(alarm);
+      alarmId = _existingAlarm!.id!;
     } else {
-      await repo.insertAlarm(alarm);
+      alarmId = await repo.insertAlarm(alarm);
     }
 
-    // TODO: Lên lịch báo thức qua AlarmScheduler (GĐ 1.5–1.6)
+    // Lên lịch báo thức thật qua AlarmScheduler
+    final scheduler = ref.read(alarmSchedulerProvider);
+    final nextTime = NextAlarmCalculator.nextAlarm(
+      alarmTime: alarmTime,
+      repeatDays: _repeatDays,
+      now: DateTime.now(),
+    );
+    if (nextTime != null) {
+      await scheduler.scheduleAlarm(
+        alarmId: alarmId,
+        scheduledTime: nextTime,
+        label: _label,
+      );
+    }
 
     if (mounted) {
       context.pop();
@@ -421,9 +486,10 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
 
   Future<void> _deleteAlarm() async {
     final repo = ref.read(alarmRepositoryProvider);
-    await repo.deleteAlarm(widget.alarmId!);
+    final scheduler = ref.read(alarmSchedulerProvider);
 
-    // TODO: Hủy lịch báo thức qua AlarmScheduler
+    await scheduler.cancelAlarm(widget.alarmId!);
+    await repo.deleteAlarm(widget.alarmId!);
 
     if (mounted) {
       context.pop();

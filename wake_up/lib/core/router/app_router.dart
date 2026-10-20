@@ -118,42 +118,44 @@ class _MainTabScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        currentIndex: navigationShell.currentIndex,
-        onTap: (index) => navigationShell.goBranch(
-          index,
-          initialLocation: index == navigationShell.currentIndex,
-        ),
-        backgroundColor: AppTheme.backgroundBlack.withValues(alpha: 0.9),
-        activeColor: AppTheme.accentOrange,
-        inactiveColor: AppTheme.labelTertiary,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(CupertinoIcons.globe),
-            label: l10n.tabWorldClock,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(CupertinoIcons.alarm_fill),
-            label: l10n.tabAlarm,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(CupertinoIcons.moon_fill),
-            label: l10n.tabBedtime,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(CupertinoIcons.tree),
-            label: l10n.tabGarden,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(CupertinoIcons.chart_bar_fill),
-            label: l10n.tabAnalytics,
+    return CupertinoPageScaffold(
+      child: Column(
+        children: [
+          Expanded(child: navigationShell),
+          CupertinoTabBar(
+            currentIndex: navigationShell.currentIndex,
+            onTap: (index) => navigationShell.goBranch(
+              index,
+              initialLocation: index == navigationShell.currentIndex,
+            ),
+            backgroundColor: AppTheme.backgroundBlack.withValues(alpha: 0.9),
+            activeColor: AppTheme.accentOrange,
+            inactiveColor: AppTheme.labelTertiary,
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(CupertinoIcons.globe),
+                label: l10n.tabWorldClock,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(CupertinoIcons.alarm_fill),
+                label: l10n.tabAlarm,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(CupertinoIcons.moon_fill),
+                label: l10n.tabBedtime,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(CupertinoIcons.tree),
+                label: l10n.tabGarden,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(CupertinoIcons.chart_bar_fill),
+                label: l10n.tabAnalytics,
+              ),
+            ],
           ),
         ],
       ),
-      tabBuilder: (context, index) {
-        return navigationShell;
-      },
     );
   }
 }

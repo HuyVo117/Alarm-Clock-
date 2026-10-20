@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wake_up/core/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -173,7 +172,24 @@ class _AlarmListScreenState extends ConsumerState<AlarmListScreen> {
 
   Future<void> _toggleAlarm(AlarmModel alarm, bool enabled) async {
     final repo = ref.read(alarmRepositoryProvider);
+    final scheduler = ref.read(alarmSchedulerProvider);
     await repo.toggleAlarm(alarm.id!, enabled);
+    if (enabled) {
+      final next = NextAlarmCalculator.nextAlarm(
+        alarmTime: alarm.time,
+        repeatDays: alarm.repeatDays,
+        now: DateTime.now(),
+      );
+      if (next != null) {
+        await scheduler.scheduleAlarm(
+          alarmId: alarm.id!,
+          scheduledTime: next,
+          label: alarm.label,
+        );
+      }
+    } else {
+      await scheduler.cancelAlarm(alarm.id!);
+    }
   }
 
   void _editAlarm(AlarmModel alarm) {
@@ -182,6 +198,8 @@ class _AlarmListScreenState extends ConsumerState<AlarmListScreen> {
 
   Future<void> _deleteAlarm(AlarmModel alarm) async {
     final repo = ref.read(alarmRepositoryProvider);
+    final scheduler = ref.read(alarmSchedulerProvider);
     await repo.deleteAlarm(alarm.id!);
+    await scheduler.cancelAlarm(alarm.id!);
   }
 }
