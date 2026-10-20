@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wake_up/core/l10n/app_localizations.dart';
@@ -28,10 +29,13 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
   late Animation<double> _pulseAnimation;
   VideoPlayerController? _videoController;
   AlarmModel? _alarm;
+  static const _deviceChannel = MethodChannel('com.wakeup.app.wake_up/device');
 
   @override
   void initState() {
     super.initState();
+    _deviceChannel.invokeMethod('turnScreenOnAndShowWhenLocked').catchError((_) {});
+
     _pulseController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -71,6 +75,7 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
 
   @override
   void dispose() {
+    _deviceChannel.invokeMethod('resetScreenFlags').catchError((_) {});
     _pulseController.dispose();
     _videoController?.dispose();
     super.dispose();
