@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:wake_up/core/l10n/app_localizations.dart';
 
 import 'core/router/app_router.dart';
