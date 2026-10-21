@@ -16,6 +16,15 @@ void main() {
       final qr = ChallengeConfig.defaultFor('qr');
       expect(qr.type, 'qr');
       expect(qr.params['qrHashes'], isEmpty);
+
+      final selfie = ChallengeConfig.defaultFor('selfie');
+      expect(selfie.type, 'selfie');
+      expect(selfie.params['requireEyesOpen'], isTrue);
+      expect(selfie.params['holdDurationSeconds'], 2);
+
+      final photo = ChallengeConfig.defaultFor('photo');
+      expect(photo.type, 'photo');
+      expect(photo.params['similarityThreshold'], 0.65);
     });
 
     test('2. ChallengeConfig defaultFor throws on unknown type', () {

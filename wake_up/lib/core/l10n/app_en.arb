@@ -147,5 +147,17 @@
     }
   },
   "confirm": "Confirm",
-  "shakeTargetCount": "Shake count"
+  "shakeTargetCount": "Shake count",
+  "challengeSelfie": "Mirror Selfie",
+  "challengeSelfieDesc": "Look into mirror & open eyes for {seconds}s",
+  "@challengeSelfieDesc": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "challengePhoto": "Out of Bed Photo",
+  "challengePhotoDesc": "Match reference location photo",
+  "challengePhotoRegistered": "Reference photo set",
+  "challengePhotoNotRegistered": "Need reference photo",
+  "challengePhotoSetupTitle": "Register Photo"
 }

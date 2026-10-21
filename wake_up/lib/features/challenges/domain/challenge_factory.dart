@@ -3,6 +3,8 @@ import 'challenge_config.dart';
 import 'math_challenge.dart';
 import 'shake_challenge.dart';
 import 'qr_challenge.dart';
+import 'selfie_challenge.dart';
+import 'photo_challenge.dart';
 
 /// Factory tạo Challenge từ ChallengeConfig.
 ///
@@ -29,6 +31,20 @@ class ChallengeFactory {
                 ?.cast<String>() ??
             [];
         return QrChallenge(registeredHashes: hashes);
+      case 'selfie':
+        return SelfieChallenge(
+          requireEyesOpen: config.params['requireEyesOpen'] as bool? ?? true,
+          holdDurationSeconds:
+              (config.params['holdDurationSeconds'] as num?)?.toInt() ?? 2,
+        );
+      case 'photo':
+        return PhotoChallenge(
+          referencePhotoPath:
+              config.params['referencePhotoPath'] as String? ?? '',
+          similarityThreshold:
+              (config.params['similarityThreshold'] as num?)?.toDouble() ??
+                  0.65,
+        );
       default:
         throw ArgumentError('Unknown challenge type: ${config.type}');
     }

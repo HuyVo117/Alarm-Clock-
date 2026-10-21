@@ -2,7 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wake_up/features/challenges/domain/challenge_config.dart';
 import 'package:wake_up/features/challenges/domain/challenge_factory.dart';
 import 'package:wake_up/features/challenges/domain/math_challenge.dart';
+import 'package:wake_up/features/challenges/domain/photo_challenge.dart';
 import 'package:wake_up/features/challenges/domain/qr_challenge.dart';
+import 'package:wake_up/features/challenges/domain/selfie_challenge.dart';
 import 'package:wake_up/features/challenges/domain/shake_challenge.dart';
 
 void main() {
@@ -44,22 +46,51 @@ void main() {
       expect(challenge.type, 'qr');
     });
 
-    test('4. ChallengeFactory throws ArgumentError for unknown type', () {
+    test('4. ChallengeFactory creates SelfieChallenge with params', () {
+      const config = ChallengeConfig(
+        type: 'selfie',
+        params: {'requireEyesOpen': false, 'holdDurationSeconds': 3},
+      );
+      final challenge = ChallengeFactory.create(config);
+      expect(challenge, isA<SelfieChallenge>());
+      expect((challenge as SelfieChallenge).requireEyesOpen, isFalse);
+      expect(challenge.holdDurationSeconds, 3);
+      expect(challenge.type, 'selfie');
+    });
+
+    test('5. ChallengeFactory creates PhotoChallenge with params', () {
+      const config = ChallengeConfig(
+        type: 'photo',
+        params: {
+          'referencePhotoPath': '/test/path.jpg',
+          'similarityThreshold': 0.75,
+        },
+      );
+      final challenge = ChallengeFactory.create(config);
+      expect(challenge, isA<PhotoChallenge>());
+      expect((challenge as PhotoChallenge).referencePhotoPath, '/test/path.jpg');
+      expect(challenge.similarityThreshold, 0.75);
+      expect(challenge.type, 'photo');
+    });
+
+    test('6. ChallengeFactory throws ArgumentError for unknown type', () {
       const config = ChallengeConfig(type: 'unknown');
       expect(() => ChallengeFactory.create(config), throwsArgumentError);
     });
 
-    test('5. ChallengeFactory createAll creates list of challenges', () {
+    test('7. ChallengeFactory createAll creates list of challenges', () {
       final configs = [
         const ChallengeConfig(type: 'math'),
         const ChallengeConfig(type: 'shake'),
-        const ChallengeConfig(type: 'qr'),
+        const ChallengeConfig(type: 'selfie'),
+        const ChallengeConfig(type: 'photo'),
       ];
       final challenges = ChallengeFactory.createAll(configs);
-      expect(challenges.length, 3);
+      expect(challenges.length, 4);
       expect(challenges[0], isA<MathChallenge>());
       expect(challenges[1], isA<ShakeChallenge>());
-      expect(challenges[2], isA<QrChallenge>());
+      expect(challenges[2], isA<SelfieChallenge>());
+      expect(challenges[3], isA<PhotoChallenge>());
     });
   });
 }

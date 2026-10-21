@@ -151,5 +151,17 @@
     }
   },
   "confirm": "Xác nhận",
-  "shakeTargetCount": "Số lần lắc"
+  "shakeTargetCount": "Số lần lắc",
+  "challengeSelfie": "Selfie trước gương",
+  "challengeSelfieDesc": "Soi gương và mở mắt {seconds}s",
+  "@challengeSelfieDesc": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "challengePhoto": "Chụp ảnh rời giường",
+  "challengePhotoDesc": "Chụp ảnh vị trí tham chiếu",
+  "challengePhotoRegistered": "Đã có ảnh mẫu",
+  "challengePhotoNotRegistered": "Cần chụp ảnh mẫu",
+  "challengePhotoSetupTitle": "Đăng ký ảnh mẫu"
 }

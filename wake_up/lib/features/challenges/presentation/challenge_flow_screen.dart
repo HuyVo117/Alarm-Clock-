@@ -9,10 +9,14 @@ import '../domain/challenge.dart';
 import '../domain/challenge_config.dart';
 import '../domain/challenge_factory.dart';
 import '../domain/math_challenge.dart';
+import '../domain/photo_challenge.dart';
 import '../domain/qr_challenge.dart';
+import '../domain/selfie_challenge.dart';
 import '../domain/shake_challenge.dart';
 import 'math_challenge_screen.dart';
+import 'photo_challenge_screen.dart';
 import 'qr_challenge_screen.dart';
+import 'selfie_challenge_screen.dart';
 import 'shake_challenge_screen.dart';
 
 /// Màn hình điều phối chuỗi thử thách (Flow Controller).
@@ -174,6 +178,18 @@ class _ChallengeFlowScreenState extends State<ChallengeFlowScreen> {
     } else if (currentChallenge is QrChallenge) {
       challengeWidget = QrChallengeScreen(
         key: ValueKey('qr_$_currentIndex'),
+        challenge: currentChallenge,
+        onCompleted: _onCurrentChallengeCompleted,
+      );
+    } else if (currentChallenge is SelfieChallenge) {
+      challengeWidget = SelfieChallengeScreen(
+        key: ValueKey('selfie_$_currentIndex'),
+        challenge: currentChallenge,
+        onCompleted: _onCurrentChallengeCompleted,
+      );
+    } else if (currentChallenge is PhotoChallenge) {
+      challengeWidget = PhotoChallengeScreen(
+        key: ValueKey('photo_$_currentIndex'),
         challenge: currentChallenge,
         onCompleted: _onCurrentChallengeCompleted,
       );

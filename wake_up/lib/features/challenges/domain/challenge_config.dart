@@ -36,6 +36,16 @@ class ChallengeConfig {
           type: 'qr',
           params: {'qrHashes': <String>[]},
         );
+      case 'selfie':
+        return const ChallengeConfig(
+          type: 'selfie',
+          params: {'requireEyesOpen': true, 'holdDurationSeconds': 2},
+        );
+      case 'photo':
+        return const ChallengeConfig(
+          type: 'photo',
+          params: {'referencePhotoPath': '', 'similarityThreshold': 0.65},
+        );
       default:
         throw ArgumentError('Unknown challenge type: $type');
     }

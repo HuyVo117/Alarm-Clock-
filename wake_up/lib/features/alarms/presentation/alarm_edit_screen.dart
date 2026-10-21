@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../challenges/domain/challenge_config.dart';
-import '../../challenges/presentation/qr_setup_screen.dart';
+import '../../challenges/presentation/photo_setup_screen.dart';
 import '../../media/data/media_service.dart';
 import '../../media/domain/alarm_sound.dart';
 import '../../media/presentation/sound_picker_screen.dart';
@@ -354,52 +354,97 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
                       onTap: () => _showShakeCountPicker(context, l10n),
                     ),
 
-                  // 3. QR Challenge
+                  // 3. Selfie Challenge (Selfie trước gương)
                   CupertinoListTile(
                     backgroundColor: AppTheme.surfaceDark,
                     leading: const Icon(
-                      CupertinoIcons.qrcode,
+                      CupertinoIcons.person_crop_circle_badge_checkmark,
                       color: AppTheme.accentOrange,
                     ),
                     title: Text(
-                      l10n.challengeQr,
+                      l10n.challengeSelfie,
                       style: const TextStyle(color: AppTheme.labelPrimary),
                     ),
                     trailing: CupertinoSwitch(
                       activeTrackColor: AppTheme.accentOrange,
-                      value: _hasChallenge('qr'),
-                      onChanged: (val) => _toggleChallenge('qr', val),
+                      value: _hasChallenge('selfie'),
+                      onChanged: (val) => _toggleChallenge('selfie', val),
                     ),
                   ),
-                  if (_hasChallenge('qr'))
+                  if (_hasChallenge('selfie')) ...[
+                    CupertinoListTile(
+                      backgroundColor: AppTheme.surfaceDarkElevated,
+                      title: const Text(
+                        'Thời gian giữ',
+                        style: TextStyle(color: AppTheme.labelPrimary, fontSize: 15),
+                      ),
+                      additionalInfo: Text(
+                        '${_getChallenge('selfie')?.params['holdDurationSeconds'] ?? 2} giây',
+                        style: const TextStyle(color: AppTheme.accentOrange),
+                      ),
+                      trailing: const CupertinoListTileChevron(),
+                      onTap: () => _showSelfieDurationPicker(context),
+                    ),
+                    CupertinoListTile(
+                      backgroundColor: AppTheme.surfaceDarkElevated,
+                      title: const Text(
+                        'Bắt buộc mở mắt',
+                        style: TextStyle(color: AppTheme.labelPrimary, fontSize: 15),
+                      ),
+                      trailing: CupertinoSwitch(
+                        activeTrackColor: AppTheme.accentOrange,
+                        value: _getChallenge('selfie')?.params['requireEyesOpen'] as bool? ?? true,
+                        onChanged: (val) {
+                          _updateChallengeParams('selfie', {'requireEyesOpen': val});
+                        },
+                      ),
+                    ),
+                  ],
+
+                  // 4. Photo Challenge (Chụp ảnh rời giường / trước gương)
+                  CupertinoListTile(
+                    backgroundColor: AppTheme.surfaceDark,
+                    leading: const Icon(
+                      CupertinoIcons.photo_camera,
+                      color: AppTheme.accentOrange,
+                    ),
+                    title: Text(
+                      l10n.challengePhoto,
+                      style: const TextStyle(color: AppTheme.labelPrimary),
+                    ),
+                    trailing: CupertinoSwitch(
+                      activeTrackColor: AppTheme.accentOrange,
+                      value: _hasChallenge('photo'),
+                      onChanged: (val) => _toggleChallenge('photo', val),
+                    ),
+                  ),
+                  if (_hasChallenge('photo'))
                     Builder(
                       builder: (context) {
-                        final hashes = (_getChallenge('qr')?.params['qrHashes'] as List<dynamic>?)
-                                ?.cast<String>() ??
-                            [];
+                        final photoPath =
+                            _getChallenge('photo')?.params['referencePhotoPath'] as String? ?? '';
+                        final hasPhoto = photoPath.isNotEmpty;
                         return CupertinoListTile(
                           backgroundColor: AppTheme.surfaceDarkElevated,
                           title: Text(
-                            l10n.challengeQrRegistered(hashes.length),
+                            l10n.challengePhotoSetupTitle,
                             style: const TextStyle(color: AppTheme.labelPrimary, fontSize: 15),
                           ),
                           additionalInfo: Text(
-                            hashes.isEmpty ? 'Cần quét mã' : l10n.challengeSetup,
+                            hasPhoto ? l10n.challengePhotoRegistered : l10n.challengePhotoNotRegistered,
                             style: TextStyle(
-                              color: hashes.isEmpty
-                                  ? AppTheme.destructiveRed
-                                  : AppTheme.accentOrange,
+                              color: hasPhoto ? AppTheme.accentOrange : AppTheme.destructiveRed,
                             ),
                           ),
                           trailing: const CupertinoListTileChevron(),
                           onTap: () async {
-                            final result = await Navigator.of(context).push<List<String>>(
+                            final result = await Navigator.of(context).push<String>(
                               CupertinoPageRoute(
-                                builder: (_) => QrSetupScreen(initialHashes: hashes),
+                                builder: (_) => PhotoSetupScreen(initialPhotoPath: photoPath),
                               ),
                             );
                             if (result != null) {
-                              _updateChallengeParams('qr', {'qrHashes': result});
+                              _updateChallengeParams('photo', {'referencePhotoPath': result});
                             }
                           },
                         );
@@ -777,6 +822,41 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
     );
   }
 
+  void _showSelfieDurationPicker(BuildContext context) {
+    final currentSec =
+        (_getChallenge('selfie')?.params['holdDurationSeconds'] as num?)?.toInt() ?? 2;
+
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (ctx) => CupertinoActionSheet(
+        title: const Text('Thời gian giữ mặt'),
+        actions: [1, 2, 3, 5].map((sec) {
+          return CupertinoActionSheetAction(
+            child: Text(
+              '$sec giây',
+              style: TextStyle(
+                color: currentSec == sec
+                    ? AppTheme.accentOrange
+                    : AppTheme.labelPrimary,
+                fontWeight:
+                    currentSec == sec ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+            onPressed: () {
+              _updateChallengeParams('selfie', {'holdDurationSeconds': sec});
+              Navigator.pop(ctx);
+            },
+          );
+        }).toList(),
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: true,
+          child: const Text('Hủy'),
+          onPressed: () => Navigator.pop(ctx),
+        ),
+      ),
+    );
+  }
+
   Future<void> _saveAlarm() async {
     final repo = ref.read(alarmRepositoryProvider);
     final l10n = AppLocalizations.of(context)!;
@@ -797,6 +877,27 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
           ),
         );
         return;
+      }
+
+      final photoChallenge = _getChallenge('photo');
+      if (photoChallenge != null) {
+        final photoPath = photoChallenge.params['referencePhotoPath'] as String? ?? '';
+        if (photoPath.isEmpty) {
+          showCupertinoDialog(
+            context: context,
+            builder: (ctx) => CupertinoAlertDialog(
+              title: Text(l10n.challengePhoto),
+              content: const Text('Vui lòng chụp ảnh mẫu tham chiếu cho thử thách Chụp ảnh rời giường.'),
+              actions: [
+                CupertinoDialogAction(
+                  child: Text(l10n.confirm),
+                  onPressed: () => Navigator.of(ctx).pop(),
+                ),
+              ],
+            ),
+          );
+          return;
+        }
       }
 
       final qrChallenge = _getChallenge('qr');

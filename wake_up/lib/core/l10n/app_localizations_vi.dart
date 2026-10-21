@@ -311,4 +311,27 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get shakeTargetCount => 'Số lần lắc';
+
+  @override
+  String get challengeSelfie => 'Selfie trước gương';
+
+  @override
+  String challengeSelfieDesc(int seconds) {
+    return 'Soi gương và mở mắt ${seconds}s';
+  }
+
+  @override
+  String get challengePhoto => 'Chụp ảnh rời giường';
+
+  @override
+  String get challengePhotoDesc => 'Chụp ảnh vị trí tham chiếu';
+
+  @override
+  String get challengePhotoRegistered => 'Đã có ảnh mẫu';
+
+  @override
+  String get challengePhotoNotRegistered => 'Cần chụp ảnh mẫu';
+
+  @override
+  String get challengePhotoSetupTitle => 'Đăng ký ảnh mẫu';
 }

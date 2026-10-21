@@ -4,6 +4,46 @@ Tất cả các thay đổi và tiến độ phát triển qua từng giai đo�
 
 ---
 
+## [0.6.0] - 2026-10-21 — Thử thách Camera: Selfie Trước Gương & Chụp Ảnh Rời Giường
+
+### ✨ Tính năng mới nổi bật
+- **Thử thách Selfie trước gương (`SelfieChallenge`)**:
+  - Tích hợp camera trước với khung oval gương soi phong cách Apple Camera, viền đổi màu theo thời gian thực (Cam: chưa phát hiện -> Vàng: đang nhận diện -> Xanh lá: hợp lệ).
+  - Sử dụng **Google ML Kit Face Detection** (100% On-device, bảo mật tuyệt đối, hoạt động offline):
+    - Kiểm tra góc quay mặt thẳng (`eulerY <= 25°`).
+    - Kiểm tra mở cả hai mắt (`eyeOpenProbability >= 0.4`).
+    - Bộ đếm thời gian giữ yên khuôn mặt (2 - 5 giây) hiển thị qua thanh tiến trình Cupertino mượt mà.
+  - Tích hợp **Nút trợ sáng màn hình (Screen Flash Light)** tăng độ sáng trong phòng tối và **Nút chụp thủ công** linh hoạt.
+- **Thử thách Chụp ảnh rời giường (`PhotoChallenge`)**:
+  - Buộc người dùng rời giường đến vị trí cố định (bồn rửa mặt, bàn làm việc...) chụp ảnh đối chiếu để tắt chuông.
+  - **Màn hình chụp ảnh mẫu tham chiếu (`PhotoSetupScreen`)**: Đăng ký và lưu ảnh tham chiếu vào vùng lưu trữ sandbox an toàn của ứng dụng.
+  - **Màn hình đối chiếu thời gian thực (`PhotoChallengeScreen`)**: Xem trước camera sau/trước, ảnh mẫu thu nhỏ (Picture-in-Picture) ở góc trên, hiển thị phần trăm độ khớp tức thì.
+  - **Thuật toán thị giác máy tính Dart thuần**:
+    - Phân tích 32-bin histogram không gian màu RGB và độ sáng ITU-R BT.601.
+    - Thẩm định độ tương đồng bằng độ đo góc Cosine Similarity với ngưỡng khớp tin cậy $\ge 0.65$.
+- **Lối thoát khẩn cấp an toàn (Emergency Exit)**:
+  - Bổ sung nút giữ 10 giây hiển thị vòng tròn tiến trình đếm ngược trên cả hai màn hình thử thách camera theo đúng tôn chỉ an toàn của dự án.
+
+### 🔧 Tối ưu hóa hạ tầng & Sửa lỗi
+- **Khắc phục lỗi mạng Gradle trên Windows**: Bổ sung cờ `-Djava.net.preferIPv4Stack=true` vào `gradle.properties` giải quyết triệt để lỗi phân giải IPv6 tới Maven Central.
+- Đạt 100% sạch lỗi `flutter analyze` và 74/74 Unit Tests vượt qua.
+
+---
+
+## [0.5.0] - 2026-10-21 — Giai đoạn 3: Hệ Thống Thử Thách Thức Dậy & Sửa Lỗi Toán Học
+
+### ✨ Tính năng mới
+- **Bộ 3 Thử thách thức dậy cốt lõi**:
+  - *Thử thách Giải toán (Math Challenge)*: 3 mức độ khó (Dễ, Vừa, Khó) với bàn phím số iOS tùy biến và phản hồi xúc giác.
+  - *Thử thách Lắc điện thoại (Shake Challenge)*: Sử dụng gia tốc kế với thuật toán chống gian lận và thanh tiến trình trực quan.
+  - *Thử thách Quét mã QR/Barcode*: Tích hợp camera quét mã vạch đã lưu.
+- **Tùy biến thử thách linh hoạt**: Cấu hình thử thách ngay trong màn hình chỉnh sửa báo thức (`AlarmEditScreen`).
+
+### 🐛 Sửa lỗi
+- Sửa lỗi thẩm định câu hỏi toán học nhiều chữ số, chuẩn hóa phép nhân `×` và chia `÷` nguyên bản.
+
+---
+
 ## [0.4.1] - 2026-10-21 — Sửa lỗi lưu báo thức, Hỗ trợ nhạc video & Tối ưu video nền
 
 ### 🐛 Sửa lỗi quan trọng (Bug Fix)

@@ -655,6 +655,48 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Số lần lắc'**
   String get shakeTargetCount;
+
+  /// No description provided for @challengeSelfie.
+  ///
+  /// In vi, this message translates to:
+  /// **'Selfie trước gương'**
+  String get challengeSelfie;
+
+  /// No description provided for @challengeSelfieDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Soi gương và mở mắt {seconds}s'**
+  String challengeSelfieDesc(int seconds);
+
+  /// No description provided for @challengePhoto.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chụp ảnh rời giường'**
+  String get challengePhoto;
+
+  /// No description provided for @challengePhotoDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chụp ảnh vị trí tham chiếu'**
+  String get challengePhotoDesc;
+
+  /// No description provided for @challengePhotoRegistered.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã có ảnh mẫu'**
+  String get challengePhotoRegistered;
+
+  /// No description provided for @challengePhotoNotRegistered.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cần chụp ảnh mẫu'**
+  String get challengePhotoNotRegistered;
+
+  /// No description provided for @challengePhotoSetupTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đăng ký ảnh mẫu'**
+  String get challengePhotoSetupTitle;
 }
 
 class _AppLocalizationsDelegate

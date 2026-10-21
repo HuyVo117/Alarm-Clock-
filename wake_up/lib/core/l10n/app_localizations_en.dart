@@ -311,4 +311,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shakeTargetCount => 'Shake count';
+
+  @override
+  String get challengeSelfie => 'Mirror Selfie';
+
+  @override
+  String challengeSelfieDesc(int seconds) {
+    return 'Look into mirror & open eyes for ${seconds}s';
+  }
+
+  @override
+  String get challengePhoto => 'Out of Bed Photo';
+
+  @override
+  String get challengePhotoDesc => 'Match reference location photo';
+
+  @override
+  String get challengePhotoRegistered => 'Reference photo set';
+
+  @override
+  String get challengePhotoNotRegistered => 'Need reference photo';
+
+  @override
+  String get challengePhotoSetupTitle => 'Register Photo';
 }
