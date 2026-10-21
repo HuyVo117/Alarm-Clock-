@@ -39,4 +39,4 @@
 
 ## Cách chạy và kiểm tra
 - Lệnh: `cd wake_up && flutter analyze && flutter test`
-- Đã test tay trên máy thật: chưa
+- Đã test tay trên máy thật: Đã build release APK, nạp và chạy thành công trên máy thật CPH2505 (Android 15), tab Thế giới hoạt động hoàn hảo.

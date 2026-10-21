@@ -55,7 +55,13 @@ Chống ngủ nướng chủ động bằng các nhiệm vụ ép não bộ và 
   - Khi chuông reo, nút "Tắt báo thức" chuyển sang kích hoạt thử thách; vượt qua toàn bộ thử thách chuông mới tự động tắt.
   - **Lối thoát an toàn**: Luôn có nút giữ 10 giây kèm vòng tròn đếm ngược để tắt chuông trong trường hợp khẩn cấp theo đúng quy định an toàn.
 
-### 5. Khả năng đánh thức mạnh mẽ (Reliability on Device)
+### 5. Đồng hồ Thế giới (World Clock)
+- **Giao diện chuẩn iOS Dark Theme**: Danh sách các thành phố đã lưu hiển thị giờ điện tử lớn, chênh lệch múi giờ (Hôm nay, +X giờ / -X giờ) và chỉ báo Ngày / Đêm.
+- **Hơn 120 thành phố toàn cầu**: Tích hợp danh mục thành phố quốc tế phong phú kèm mã múi giờ IANA chuẩn xác, tự động tính toán giờ mùa hè (DST - Daylight Saving Time).
+- **Tìm kiếm thông minh**: Tìm kiếm nhanh theo tên thành phố hoặc quốc gia, hỗ trợ tiếng Việt không dấu.
+- **Quản lý danh sách**: Hỗ trợ chế độ Sửa, xóa nhanh bằng vuốt (Swipe to Delete), kéo thả sắp xếp thứ tự và lưu trữ cục bộ an toàn.
+
+### 6. Khả năng đánh thức mạnh mẽ (Reliability on Device)
 - **Tự động bật sáng màn hình khóa**: Sử dụng `setShowWhenLocked(true)` và `setTurnScreenOn(true)` cùng dịch vụ Foreground Service và Full-Screen Intent để đánh thức điện thoại ngay cả khi tắt màn hình.
 - **Quản lý quyền chặt chẽ**: Tự động xin cấp quyền gửi thông báo, quyền lên lịch báo thức chính xác (`SCHEDULE_EXACT_ALARM`), quyền sử dụng Camera (`CAMERA` cho Selfie và Photo Challenge) và quyền bỏ qua tối ưu hóa pin để không bị hệ điều hành tắt ngầm.
 - **Tự động phục hồi sau khởi động lại máy**: Hỗ trợ `RECEIVE_BOOT_COMPLETED` để tự lên lịch lại toàn bộ báo thức sau khi khởi động lại thiết bị.
@@ -87,10 +93,13 @@ lib/
 │   │   ├── data/              # MediaService (chọn & lưu video/âm thanh tùy chỉnh)
 │   │   ├── domain/            # AlarmSound (model âm thanh có sẵn, helper phân giải tên)
 │   │   └── presentation/      # SoundPickerScreen (trình chọn & nghe thử nhạc chuông iOS)
+│   ├── world_clock/           # Tab Đồng hồ thế giới (v0.7.0)
+│   │   ├── data/              # Danh mục thành phố IANA và LocalWorldClockRepository
+│   │   ├── domain/            # WorldCityModel, TimezoneCalculator (Dart thuần)
+│   │   └── presentation/      # WorldClockScreen, CitySearchScreen, WorldClockCard
 │   ├── bedtime/               # Tab Giờ ngủ
-│   ├── world_clock/           # Tab Đồng hồ thế giới
-│   ├── garden/                # Tab Khu vườn ngủ ngon (Roadmap Giai đoạn 4)
-│   └── analytics/             # Tab Thống kê hành vi (Roadmap Giai đoạn 5)
+│   ├── garden/                # Tab Nông trại thức giấc (Đang triển khai)
+│   └── analytics/             # Tab Thống kê hành vi
 ```
 
 ---
@@ -128,32 +137,33 @@ lib/
 
 ---
 
-## 📦 Tải về Bản Phát Hành (Release APK v0.6.0)
+## 📦 Tải về Bản Phát Hành (Release APK v0.7.0)
 
 Người dùng có thể tải trực tiếp file cài đặt APK đã đóng gói sẵn:
-- **Tải file APK trực tiếp**: [📥 wake-up-v0.6.0.apk](https://github.com/HuyVo117/Alarm-Clock-/raw/main/release/wake-up-v0.6.0.apk)
-- **Xem phiên bản trên GitHub**: [🏷️ Release v0.6.0](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.6.0)
-- **Bản phát hành trước đó**: [🏷️ Release v0.5.0](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.5.0) | [🏷️ Release v0.4.1](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.4.1)
+- **Tải file APK trực tiếp**: [📥 wake-up-v0.7.0.apk](https://github.com/HuyVo117/Alarm-Clock-/raw/main/release/wake-up-v0.7.0.apk)
+- **Xem phiên bản trên GitHub**: [🏷️ Release v0.7.0](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.7.0)
+- **Bản phát hành trước đó**: [🏷️ Release v0.6.0](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.6.0) | [🏷️ Release v0.5.0](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.5.0) | [🏷️ Release v0.4.1](https://github.com/HuyVo117/Alarm-Clock-/releases/tag/v0.4.1)
 
 ### Tự tạo file cài đặt APK từ mã nguồn:
 ```bash
 cd wake_up
-flutter build apk --release
+flutter build apk --release --split-per-abi
 ```
 File APK xuất xưởng sẽ nằm tại:
 ```
-wake_up/build/app/outputs/flutter-apk/app-release.apk
+wake_up/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
 ```
 
 ### Cài đặt lên thiết bị qua ADB:
 ```bash
-adb install -r wake_up/build/app/outputs/flutter-apk/app-release.apk
+adb install -r wake_up/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
 ```
 
 ---
 
 ## 🧪 Kiểm thử (Testing)
-Dự án áp dụng quy tắc kiểm thử nghiêm ngặt: toàn bộ logic nghiệp vụ (tính ngày kế tiếp, logic báo lại, model báo thức, danh mục âm thanh, và toàn bộ bộ sinh câu hỏi / phân tích thị giác / thẩm định thử thách) là **Dart thuần**, không dính dáng UI hay plugin để bảo đảm 100% kiểm thử tự động (**74/74 tests passed**):
+Dự án áp dụng quy tắc kiểm thử nghiêm ngặt: toàn bộ logic nghiệp vụ (tính ngày kế tiếp, logic báo lại, model báo thức, danh mục âm thanh, và toàn bộ bộ sinh câu hỏi / phân tích thị giác / thẩm định thử thách / tính toán múi giờ) là **Dart thuần**, không dính dáng UI hay plugin để bảo đảm 100% kiểm thử tự động (**87/87 tests passed**):
+- `timezone_calculator_test.dart`: 13 kịch bản kiểm thử tính giờ địa phương, UTC offset, DST và format ngày đêm.
 - `selfie_challenge_test.dart`: 7 kịch bản kiểm thử nhận diện khuôn mặt, góc nghiêng eulerY, xác suất mở mắt, thời gian giữ yên khuôn mặt và reset.
 - `photo_challenge_test.dart`: 6 kịch bản kiểm thử trích xuất 32-bin histogram L1, tính Cosine Similarity, ngưỡng khớp và reset.
 - `next_alarm_calculator_test.dart`: 13 kịch bản kiểm thử ranh giới thời gian (nửa đêm, chuyển tháng, năm).
@@ -169,4 +179,4 @@ Dự án áp dụng quy tắc kiểm thử nghiêm ngặt: toàn bộ logic nghi
 ---
 
 ## 🗺️ Lộ trình phát triển (Roadmap)
-Xem chi tiết lộ trình 8 giai đoạn của dự án tại [ROADMAP.md](wake_up/docs/ROADMAP.md).
+Xem chi tiết lộ trình các giai đoạn của dự án tại [ROADMAP.md](wake_up/docs/ROADMAP.md).
