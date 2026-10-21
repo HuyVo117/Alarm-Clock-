@@ -4,6 +4,8 @@ import 'package:wake_up/core/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../challenges/domain/challenge_config.dart';
+import '../../challenges/presentation/qr_setup_screen.dart';
 import '../../media/data/media_service.dart';
 import '../../media/domain/alarm_sound.dart';
 import '../../media/presentation/sound_picker_screen.dart';
@@ -32,6 +34,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
   String? _soundPath;
   int _snoozeInterval = 5;
   int _snoozeMaxCount = 3;
+  List<ChallengeConfig> _challenges = [];
   bool _isLoading = true;
   AlarmModel? _existingAlarm;
 
@@ -59,10 +62,40 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
           _soundPath = alarm.soundPath;
           _snoozeInterval = alarm.snoozeIntervalMinutes;
           _snoozeMaxCount = alarm.snoozeMaxCount;
+          _challenges = List.from(alarm.challenges);
         });
       }
     }
     setState(() => _isLoading = false);
+  }
+
+  bool _hasChallenge(String type) => _challenges.any((c) => c.type == type);
+
+  ChallengeConfig? _getChallenge(String type) {
+    final idx = _challenges.indexWhere((c) => c.type == type);
+    return idx != -1 ? _challenges[idx] : null;
+  }
+
+  void _toggleChallenge(String type, bool enable) {
+    setState(() {
+      if (enable) {
+        if (!_hasChallenge(type)) {
+          _challenges.add(ChallengeConfig.defaultFor(type));
+        }
+      } else {
+        _challenges.removeWhere((c) => c.type == type);
+      }
+    });
+  }
+
+  void _updateChallengeParams(String type, Map<String, dynamic> params) {
+    setState(() {
+      final idx = _challenges.indexWhere((c) => c.type == type);
+      if (idx != -1) {
+        final old = _challenges[idx];
+        _challenges[idx] = old.copyWith(params: {...old.params, ...params});
+      }
+    });
   }
 
   @override
@@ -183,22 +216,197 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
                 ),
 
                 // Chế độ đánh thức
-                CupertinoListTile(
-                  backgroundColor: AppTheme.surfaceDark,
-                  title: Text(
-                    l10n.wakeMode,
-                    style: const TextStyle(color: AppTheme.labelPrimary),
+                Container(
+                  color: AppTheme.surfaceDark,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        l10n.wakeMode,
+                        style: const TextStyle(
+                          color: AppTheme.labelPrimary,
+                          fontSize: 17,
+                        ),
+                      ),
+                      const Spacer(),
+                      CupertinoSlidingSegmentedControl<WakeMode>(
+                        groupValue: _mode,
+                        backgroundColor: AppTheme.surfaceDarkElevated,
+                        thumbColor: AppTheme.accentOrange,
+                        children: {
+                          WakeMode.normal: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            child: Text(
+                              l10n.wakeModeNormal,
+                              style: TextStyle(
+                                color: _mode == WakeMode.normal
+                                    ? CupertinoColors.white
+                                    : AppTheme.labelSecondary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          WakeMode.deep: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            child: Text(
+                              l10n.wakeModeDeep,
+                              style: TextStyle(
+                                color: _mode == WakeMode.deep
+                                    ? CupertinoColors.white
+                                    : AppTheme.labelSecondary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        },
+                        onValueChanged: (val) {
+                          if (val != null) {
+                            setState(() {
+                              _mode = val;
+                              if (_mode == WakeMode.deep && _challenges.isEmpty) {
+                                _challenges.add(ChallengeConfig.defaultFor('math'));
+                              }
+                            });
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  additionalInfo: Text(
-                    _mode == WakeMode.normal
-                        ? l10n.wakeModeNormal
-                        : l10n.wakeModeDeep,
-                    style: const TextStyle(color: AppTheme.labelSecondary),
-                  ),
-                  // GĐ 1: chỉ hỗ trợ "Thường", không cho bấm
                 ),
               ],
             ),
+
+            // Thử thách cho chế độ sâu
+            if (_mode == WakeMode.deep)
+              CupertinoListSection.insetGrouped(
+                backgroundColor: AppTheme.backgroundBlack,
+                header: Text(
+                  '${l10n.challengeTitle} (${l10n.wakeModeDeep})',
+                  style: const TextStyle(color: AppTheme.labelSecondary),
+                ),
+                children: [
+                  // 1. Math Challenge
+                  CupertinoListTile(
+                    backgroundColor: AppTheme.surfaceDark,
+                    leading: const Icon(
+                      CupertinoIcons.function,
+                      color: AppTheme.accentOrange,
+                    ),
+                    title: Text(
+                      l10n.challengeMath,
+                      style: const TextStyle(color: AppTheme.labelPrimary),
+                    ),
+                    trailing: CupertinoSwitch(
+                      activeTrackColor: AppTheme.accentOrange,
+                      value: _hasChallenge('math'),
+                      onChanged: (val) => _toggleChallenge('math', val),
+                    ),
+                  ),
+                  if (_hasChallenge('math'))
+                    CupertinoListTile(
+                      backgroundColor: AppTheme.surfaceDarkElevated,
+                      title: const Text(
+                        'Độ khó',
+                        style: TextStyle(color: AppTheme.labelPrimary, fontSize: 15),
+                      ),
+                      additionalInfo: Text(
+                        _getMathDifficultyLabel(
+                          (_getChallenge('math')?.params['difficulty'] as num?)?.toInt() ?? 1,
+                          l10n,
+                        ),
+                        style: const TextStyle(color: AppTheme.accentOrange),
+                      ),
+                      trailing: const CupertinoListTileChevron(),
+                      onTap: () => _showMathDifficultyPicker(context, l10n),
+                    ),
+
+                  // 2. Shake Challenge
+                  CupertinoListTile(
+                    backgroundColor: AppTheme.surfaceDark,
+                    leading: const Icon(
+                      CupertinoIcons.device_phone_portrait,
+                      color: AppTheme.accentOrange,
+                    ),
+                    title: Text(
+                      l10n.challengeShake,
+                      style: const TextStyle(color: AppTheme.labelPrimary),
+                    ),
+                    trailing: CupertinoSwitch(
+                      activeTrackColor: AppTheme.accentOrange,
+                      value: _hasChallenge('shake'),
+                      onChanged: (val) => _toggleChallenge('shake', val),
+                    ),
+                  ),
+                  if (_hasChallenge('shake'))
+                    CupertinoListTile(
+                      backgroundColor: AppTheme.surfaceDarkElevated,
+                      title: Text(
+                        l10n.shakeTargetCount,
+                        style: const TextStyle(color: AppTheme.labelPrimary, fontSize: 15),
+                      ),
+                      additionalInfo: Text(
+                        '${_getChallenge('shake')?.params['targetCount'] ?? 30} lần',
+                        style: const TextStyle(color: AppTheme.accentOrange),
+                      ),
+                      trailing: const CupertinoListTileChevron(),
+                      onTap: () => _showShakeCountPicker(context, l10n),
+                    ),
+
+                  // 3. QR Challenge
+                  CupertinoListTile(
+                    backgroundColor: AppTheme.surfaceDark,
+                    leading: const Icon(
+                      CupertinoIcons.qrcode,
+                      color: AppTheme.accentOrange,
+                    ),
+                    title: Text(
+                      l10n.challengeQr,
+                      style: const TextStyle(color: AppTheme.labelPrimary),
+                    ),
+                    trailing: CupertinoSwitch(
+                      activeTrackColor: AppTheme.accentOrange,
+                      value: _hasChallenge('qr'),
+                      onChanged: (val) => _toggleChallenge('qr', val),
+                    ),
+                  ),
+                  if (_hasChallenge('qr'))
+                    Builder(
+                      builder: (context) {
+                        final hashes = (_getChallenge('qr')?.params['qrHashes'] as List<dynamic>?)
+                                ?.cast<String>() ??
+                            [];
+                        return CupertinoListTile(
+                          backgroundColor: AppTheme.surfaceDarkElevated,
+                          title: Text(
+                            l10n.challengeQrRegistered(hashes.length),
+                            style: const TextStyle(color: AppTheme.labelPrimary, fontSize: 15),
+                          ),
+                          additionalInfo: Text(
+                            hashes.isEmpty ? 'Cần quét mã' : l10n.challengeSetup,
+                            style: TextStyle(
+                              color: hashes.isEmpty
+                                  ? AppTheme.destructiveRed
+                                  : AppTheme.accentOrange,
+                            ),
+                          ),
+                          trailing: const CupertinoListTileChevron(),
+                          onTap: () async {
+                            final result = await Navigator.of(context).push<List<String>>(
+                              CupertinoPageRoute(
+                                builder: (_) => QrSetupScreen(initialHashes: hashes),
+                              ),
+                            );
+                            if (result != null) {
+                              _updateChallengeParams('qr', {'qrHashes': result});
+                            }
+                          },
+                        );
+                      },
+                    ),
+                ],
+              ),
 
             // Video nền báo thức (Giai đoạn 2)
             CupertinoListSection.insetGrouped(
@@ -454,8 +662,166 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
     }
   }
 
+  String _getMathDifficultyLabel(int diff, AppLocalizations l10n) {
+    switch (diff) {
+      case 1:
+        return l10n.challengeDifficultyEasy;
+      case 2:
+        return l10n.challengeDifficultyMedium;
+      case 3:
+        return l10n.challengeDifficultyHard;
+      default:
+        return l10n.challengeDifficultyEasy;
+    }
+  }
+
+  void _showMathDifficultyPicker(BuildContext context, AppLocalizations l10n) {
+    final currentDiff =
+        (_getChallenge('math')?.params['difficulty'] as num?)?.toInt() ?? 1;
+
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (ctx) => CupertinoActionSheet(
+        title: const Text('Chọn độ khó'),
+        actions: [
+          CupertinoActionSheetAction(
+            child: Text(
+              l10n.challengeDifficultyEasy,
+              style: TextStyle(
+                color: currentDiff == 1
+                    ? AppTheme.accentOrange
+                    : AppTheme.labelPrimary,
+                fontWeight:
+                    currentDiff == 1 ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+            onPressed: () {
+              _updateChallengeParams('math', {'difficulty': 1});
+              Navigator.pop(ctx);
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: Text(
+              l10n.challengeDifficultyMedium,
+              style: TextStyle(
+                color: currentDiff == 2
+                    ? AppTheme.accentOrange
+                    : AppTheme.labelPrimary,
+                fontWeight:
+                    currentDiff == 2 ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+            onPressed: () {
+              _updateChallengeParams('math', {'difficulty': 2});
+              Navigator.pop(ctx);
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: Text(
+              l10n.challengeDifficultyHard,
+              style: TextStyle(
+                color: currentDiff == 3
+                    ? AppTheme.accentOrange
+                    : AppTheme.labelPrimary,
+                fontWeight:
+                    currentDiff == 3 ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+            onPressed: () {
+              _updateChallengeParams('math', {'difficulty': 3});
+              Navigator.pop(ctx);
+            },
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: true,
+          child: Text(l10n.cancel),
+          onPressed: () => Navigator.pop(ctx),
+        ),
+      ),
+    );
+  }
+
+  void _showShakeCountPicker(BuildContext context, AppLocalizations l10n) {
+    final currentCount =
+        (_getChallenge('shake')?.params['targetCount'] as num?)?.toInt() ?? 30;
+
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (ctx) => CupertinoActionSheet(
+        title: Text(l10n.shakeTargetCount),
+        actions: [15, 30, 50, 100].map((count) {
+          return CupertinoActionSheetAction(
+            child: Text(
+              '$count lần',
+              style: TextStyle(
+                color: currentCount == count
+                    ? AppTheme.accentOrange
+                    : AppTheme.labelPrimary,
+                fontWeight:
+                    currentCount == count ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+            onPressed: () {
+              _updateChallengeParams('shake', {'targetCount': count});
+              Navigator.pop(ctx);
+            },
+          );
+        }).toList(),
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: true,
+          child: Text(l10n.cancel),
+          onPressed: () => Navigator.pop(ctx),
+        ),
+      ),
+    );
+  }
+
   Future<void> _saveAlarm() async {
     final repo = ref.read(alarmRepositoryProvider);
+    final l10n = AppLocalizations.of(context)!;
+
+    if (_mode == WakeMode.deep) {
+      if (_challenges.isEmpty) {
+        showCupertinoDialog(
+          context: context,
+          builder: (ctx) => CupertinoAlertDialog(
+            title: Text(l10n.challengeTitle),
+            content: Text(l10n.challengeSelectAtLeastOne),
+            actions: [
+              CupertinoDialogAction(
+                child: Text(l10n.confirm),
+                onPressed: () => Navigator.of(ctx).pop(),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      final qrChallenge = _getChallenge('qr');
+      if (qrChallenge != null) {
+        final hashes = (qrChallenge.params['qrHashes'] as List<dynamic>?)
+                ?.cast<String>() ??
+            [];
+        if (hashes.isEmpty) {
+          showCupertinoDialog(
+            context: context,
+            builder: (ctx) => CupertinoAlertDialog(
+              title: Text(l10n.challengeQr),
+              content: const Text('Vui lòng quét và đăng ký ít nhất 1 mã QR.'),
+              actions: [
+                CupertinoDialogAction(
+                  child: Text(l10n.confirm),
+                  onPressed: () => Navigator.of(ctx).pop(),
+                ),
+              ],
+            ),
+          );
+          return;
+        }
+      }
+    }
 
     // Tạo DateTime cho báo thức: dùng ngày hôm nay + giờ đã chọn
     final now = DateTime.now();
@@ -482,6 +848,7 @@ class _AlarmEditScreenState extends ConsumerState<AlarmEditScreen> {
       soundPath: _soundPath,
       snoozeIntervalMinutes: _snoozeInterval,
       snoozeMaxCount: _snoozeMaxCount,
+      challenges: _mode == WakeMode.deep ? _challenges : const [],
       enabled: true,
     );
 

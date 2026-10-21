@@ -200,4 +200,115 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get iosUnsupportedDesc => 'Tính năng báo thức yêu cầu iOS 26 trở lên.';
+
+  @override
+  String get challengeTitle => 'Thử thách';
+
+  @override
+  String get challengeMath => 'Giải toán';
+
+  @override
+  String get challengeShake => 'Lắc điện thoại';
+
+  @override
+  String get challengeQr => 'Quét mã QR';
+
+  @override
+  String challengeMathDesc(int count) {
+    return '$count câu toán';
+  }
+
+  @override
+  String challengeShakeDesc(int count) {
+    return '$count lần lắc';
+  }
+
+  @override
+  String get challengeQrDesc => 'Quét mã đã đăng ký';
+
+  @override
+  String get challengeSetup => 'Cài đặt';
+
+  @override
+  String get challengeDifficultyEasy => 'Dễ';
+
+  @override
+  String get challengeDifficultyMedium => 'Trung bình';
+
+  @override
+  String get challengeDifficultyHard => 'Khó';
+
+  @override
+  String challengeProgress(int current, int total) {
+    return 'Thử thách $current/$total';
+  }
+
+  @override
+  String challengeQuestionProgress(int current, int total) {
+    return 'Câu $current/$total';
+  }
+
+  @override
+  String challengeShakeProgress(int current, int total) {
+    return '$current/$total lần';
+  }
+
+  @override
+  String get challengeStartButton => 'Bắt đầu thử thách';
+
+  @override
+  String get challengeCorrect => 'Đúng!';
+
+  @override
+  String get challengeWrong => 'Sai, thử lại!';
+
+  @override
+  String get challengeShakeInstruction => 'Lắc điện thoại!';
+
+  @override
+  String get challengeQrInstruction => 'Quét mã QR đã đăng ký';
+
+  @override
+  String get challengeQrMatched => 'Mã khớp!';
+
+  @override
+  String get challengeQrNotMatched => 'Sai mã, thử mã khác';
+
+  @override
+  String get challengeCompleted => 'Hoàn thành!';
+
+  @override
+  String get challengeEmergencyExit => 'Thoát khẩn cấp';
+
+  @override
+  String challengeEmergencyHold(int seconds) {
+    return 'Giữ $seconds giây để thoát';
+  }
+
+  @override
+  String get challengeEmergencyConfirm => 'Xác nhận thoát khẩn cấp?';
+
+  @override
+  String get challengeEmergencyWarning =>
+      'Báo thức sẽ được tắt mà không hoàn thành thử thách.';
+
+  @override
+  String get challengeSelectAtLeastOne => 'Chọn ít nhất 1 thử thách';
+
+  @override
+  String get challengeQrSetupTitle => 'Cài đặt mã QR';
+
+  @override
+  String get challengeQrScanToAdd => 'Quét mã QR để thêm';
+
+  @override
+  String challengeQrRegistered(int count) {
+    return '$count mã đã đăng ký';
+  }
+
+  @override
+  String get confirm => 'Xác nhận';
+
+  @override
+  String get shakeTargetCount => 'Số lần lắc';
 }

@@ -200,4 +200,115 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get iosUnsupportedDesc => 'Alarm feature requires iOS 26 or later.';
+
+  @override
+  String get challengeTitle => 'Challenge';
+
+  @override
+  String get challengeMath => 'Math';
+
+  @override
+  String get challengeShake => 'Shake Phone';
+
+  @override
+  String get challengeQr => 'Scan QR Code';
+
+  @override
+  String challengeMathDesc(int count) {
+    return '$count questions';
+  }
+
+  @override
+  String challengeShakeDesc(int count) {
+    return '$count shakes';
+  }
+
+  @override
+  String get challengeQrDesc => 'Scan registered code';
+
+  @override
+  String get challengeSetup => 'Setup';
+
+  @override
+  String get challengeDifficultyEasy => 'Easy';
+
+  @override
+  String get challengeDifficultyMedium => 'Medium';
+
+  @override
+  String get challengeDifficultyHard => 'Hard';
+
+  @override
+  String challengeProgress(int current, int total) {
+    return 'Challenge $current/$total';
+  }
+
+  @override
+  String challengeQuestionProgress(int current, int total) {
+    return 'Q $current/$total';
+  }
+
+  @override
+  String challengeShakeProgress(int current, int total) {
+    return '$current/$total shakes';
+  }
+
+  @override
+  String get challengeStartButton => 'Start Challenge';
+
+  @override
+  String get challengeCorrect => 'Correct!';
+
+  @override
+  String get challengeWrong => 'Wrong, try again!';
+
+  @override
+  String get challengeShakeInstruction => 'Shake your phone!';
+
+  @override
+  String get challengeQrInstruction => 'Scan the registered QR code';
+
+  @override
+  String get challengeQrMatched => 'Code matched!';
+
+  @override
+  String get challengeQrNotMatched => 'Wrong code, try another';
+
+  @override
+  String get challengeCompleted => 'Completed!';
+
+  @override
+  String get challengeEmergencyExit => 'Emergency Exit';
+
+  @override
+  String challengeEmergencyHold(int seconds) {
+    return 'Hold for ${seconds}s to exit';
+  }
+
+  @override
+  String get challengeEmergencyConfirm => 'Confirm emergency exit?';
+
+  @override
+  String get challengeEmergencyWarning =>
+      'The alarm will be dismissed without completing the challenge.';
+
+  @override
+  String get challengeSelectAtLeastOne => 'Select at least 1 challenge';
+
+  @override
+  String get challengeQrSetupTitle => 'QR Code Setup';
+
+  @override
+  String get challengeQrScanToAdd => 'Scan a QR code to add';
+
+  @override
+  String challengeQrRegistered(int count) {
+    return '$count codes registered';
+  }
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get shakeTargetCount => 'Shake count';
 }

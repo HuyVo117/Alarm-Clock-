@@ -7,6 +7,7 @@ import 'package:video_player/video_player.dart';
 import 'package:wake_up/core/l10n/app_localizations.dart';
 
 import '../../../core/theme/app_theme.dart';
+import '../../challenges/presentation/challenge_flow_screen.dart';
 import '../domain/alarm_model.dart';
 import '../domain/next_alarm_calculator.dart';
 import 'providers/alarm_providers.dart';
@@ -76,6 +77,19 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
             // Nếu lỗi phát video, tiếp tục dùng nền mặc định
           }
         }
+      }
+
+      // Chuỗi báo thức dự phòng: ở chế độ sâu, tự đặt báo thức lặp sau 2 phút
+      if (alarm.mode == WakeMode.deep) {
+        final scheduler = ref.read(alarmSchedulerProvider);
+        try {
+          await scheduler.scheduleAlarm(
+            alarmId: widget.alarmId + 100000,
+            scheduledTime: DateTime.now().add(const Duration(minutes: 2)),
+            label: '${alarm.label} (Dự phòng)',
+            soundPath: alarm.soundPath,
+          );
+        } catch (_) {}
       }
     }
   }
@@ -248,7 +262,7 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
                     child: CupertinoButton(
                       color: AppTheme.accentOrange,
                       borderRadius: BorderRadius.circular(14),
-                      onPressed: _stop,
+                      onPressed: _onStopPressed,
                       child: Text(
                         l10n.stop,
                         style: const TextStyle(
@@ -279,6 +293,9 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
   Future<void> _snooze() async {
     final scheduler = ref.read(alarmSchedulerProvider);
     await scheduler.cancelAlarm(widget.alarmId);
+    try {
+      await scheduler.cancelAlarm(widget.alarmId + 100000);
+    } catch (_) {}
 
     final interval = _alarm?.snoozeIntervalMinutes ?? 5;
     final snoozeTime = DateTime.now().add(Duration(minutes: interval));
@@ -295,11 +312,34 @@ class _AlarmRingingScreenState extends ConsumerState<AlarmRingingScreen>
     }
   }
 
-  Future<void> _stop() async {
+  Future<void> _onStopPressed() async {
+    if (_alarm?.mode == WakeMode.deep &&
+        _alarm!.challenges.isNotEmpty &&
+        mounted) {
+      Navigator.of(context).push(
+        CupertinoPageRoute(
+          builder: (ctx) => ChallengeFlowScreen(
+            configs: _alarm!.challenges,
+            onCompleted: () {
+              Navigator.of(ctx).pop();
+              _performRealStop();
+            },
+          ),
+        ),
+      );
+    } else {
+      await _performRealStop();
+    }
+  }
+
+  Future<void> _performRealStop() async {
     final scheduler = ref.read(alarmSchedulerProvider);
     final repo = ref.read(alarmRepositoryProvider);
 
     await scheduler.cancelAlarm(widget.alarmId);
+    try {
+      await scheduler.cancelAlarm(widget.alarmId + 100000);
+    } catch (_) {}
 
     if (_alarm != null) {
       if (_alarm!.isRepeating) {

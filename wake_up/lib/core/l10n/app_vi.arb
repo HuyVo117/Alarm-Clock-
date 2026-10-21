@@ -80,5 +80,76 @@
   "grantPermission": "Cấp quyền",
   "openSettings": "Mở cài đặt",
   "iosUnsupportedTitle": "Chưa hỗ trợ",
-  "iosUnsupportedDesc": "Tính năng báo thức yêu cầu iOS 26 trở lên."
+  "iosUnsupportedDesc": "Tính năng báo thức yêu cầu iOS 26 trở lên.",
+
+  "challengeTitle": "Thử thách",
+  "challengeMath": "Giải toán",
+  "challengeShake": "Lắc điện thoại",
+  "challengeQr": "Quét mã QR",
+  "challengeMathDesc": "{count} câu toán",
+  "@challengeMathDesc": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "challengeShakeDesc": "{count} lần lắc",
+  "@challengeShakeDesc": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "challengeQrDesc": "Quét mã đã đăng ký",
+  "challengeSetup": "Cài đặt",
+  "challengeDifficultyEasy": "Dễ",
+  "challengeDifficultyMedium": "Trung bình",
+  "challengeDifficultyHard": "Khó",
+  "challengeProgress": "Thử thách {current}/{total}",
+  "@challengeProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "challengeQuestionProgress": "Câu {current}/{total}",
+  "@challengeQuestionProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "challengeShakeProgress": "{current}/{total} lần",
+  "@challengeShakeProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "challengeStartButton": "Bắt đầu thử thách",
+  "challengeCorrect": "Đúng!",
+  "challengeWrong": "Sai, thử lại!",
+  "challengeShakeInstruction": "Lắc điện thoại!",
+  "challengeQrInstruction": "Quét mã QR đã đăng ký",
+  "challengeQrMatched": "Mã khớp!",
+  "challengeQrNotMatched": "Sai mã, thử mã khác",
+  "challengeCompleted": "Hoàn thành!",
+  "challengeEmergencyExit": "Thoát khẩn cấp",
+  "challengeEmergencyHold": "Giữ {seconds} giây để thoát",
+  "@challengeEmergencyHold": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "challengeEmergencyConfirm": "Xác nhận thoát khẩn cấp?",
+  "challengeEmergencyWarning": "Báo thức sẽ được tắt mà không hoàn thành thử thách.",
+  "challengeSelectAtLeastOne": "Chọn ít nhất 1 thử thách",
+  "challengeQrSetupTitle": "Cài đặt mã QR",
+  "challengeQrScanToAdd": "Quét mã QR để thêm",
+  "challengeQrRegistered": "{count} mã đã đăng ký",
+  "@challengeQrRegistered": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "confirm": "Xác nhận",
+  "shakeTargetCount": "Số lần lắc"
 }

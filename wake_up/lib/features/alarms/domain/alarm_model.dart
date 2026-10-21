@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../../challenges/domain/challenge_config.dart';
+
 /// Enum cho chế độ đánh thức
 enum WakeMode { normal, deep }
 
@@ -17,6 +19,7 @@ class AlarmModel {
   final String? soundPath;
   final int snoozeIntervalMinutes;
   final int snoozeMaxCount;
+  final List<ChallengeConfig> challenges;
   final String? timezone;
   final bool enabled;
 
@@ -32,6 +35,7 @@ class AlarmModel {
     this.soundPath,
     this.snoozeIntervalMinutes = 5,
     this.snoozeMaxCount = 3,
+    this.challenges = const [],
     this.timezone,
     this.enabled = true,
   });
@@ -54,6 +58,7 @@ class AlarmModel {
     String? soundPath,
     int? snoozeIntervalMinutes,
     int? snoozeMaxCount,
+    List<ChallengeConfig>? challenges,
     String? timezone,
     bool? enabled,
   }) {
@@ -70,6 +75,7 @@ class AlarmModel {
       snoozeIntervalMinutes:
           snoozeIntervalMinutes ?? this.snoozeIntervalMinutes,
       snoozeMaxCount: snoozeMaxCount ?? this.snoozeMaxCount,
+      challenges: challenges ?? this.challenges,
       timezone: timezone ?? this.timezone,
       enabled: enabled ?? this.enabled,
     );
@@ -87,4 +93,11 @@ class AlarmModel {
     final List<dynamic> decoded = jsonDecode(json) as List<dynamic>;
     return decoded.cast<int>();
   }
+
+  /// Chuyển challenges sang JSON string để lưu vào DB
+  String? challengesToJson() => ChallengeConfig.toJsonString(challenges);
+
+  /// Parse challenges từ JSON string
+  static List<ChallengeConfig> challengesFromJson(String? json) =>
+      ChallengeConfig.fromJsonString(json);
 }

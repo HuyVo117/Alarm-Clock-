@@ -463,6 +463,198 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Tính năng báo thức yêu cầu iOS 26 trở lên.'**
   String get iosUnsupportedDesc;
+
+  /// No description provided for @challengeTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử thách'**
+  String get challengeTitle;
+
+  /// No description provided for @challengeMath.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giải toán'**
+  String get challengeMath;
+
+  /// No description provided for @challengeShake.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lắc điện thoại'**
+  String get challengeShake;
+
+  /// No description provided for @challengeQr.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quét mã QR'**
+  String get challengeQr;
+
+  /// No description provided for @challengeMathDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} câu toán'**
+  String challengeMathDesc(int count);
+
+  /// No description provided for @challengeShakeDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} lần lắc'**
+  String challengeShakeDesc(int count);
+
+  /// No description provided for @challengeQrDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quét mã đã đăng ký'**
+  String get challengeQrDesc;
+
+  /// No description provided for @challengeSetup.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cài đặt'**
+  String get challengeSetup;
+
+  /// No description provided for @challengeDifficultyEasy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dễ'**
+  String get challengeDifficultyEasy;
+
+  /// No description provided for @challengeDifficultyMedium.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trung bình'**
+  String get challengeDifficultyMedium;
+
+  /// No description provided for @challengeDifficultyHard.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khó'**
+  String get challengeDifficultyHard;
+
+  /// No description provided for @challengeProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử thách {current}/{total}'**
+  String challengeProgress(int current, int total);
+
+  /// No description provided for @challengeQuestionProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Câu {current}/{total}'**
+  String challengeQuestionProgress(int current, int total);
+
+  /// No description provided for @challengeShakeProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'{current}/{total} lần'**
+  String challengeShakeProgress(int current, int total);
+
+  /// No description provided for @challengeStartButton.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu thử thách'**
+  String get challengeStartButton;
+
+  /// No description provided for @challengeCorrect.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đúng!'**
+  String get challengeCorrect;
+
+  /// No description provided for @challengeWrong.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sai, thử lại!'**
+  String get challengeWrong;
+
+  /// No description provided for @challengeShakeInstruction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lắc điện thoại!'**
+  String get challengeShakeInstruction;
+
+  /// No description provided for @challengeQrInstruction.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quét mã QR đã đăng ký'**
+  String get challengeQrInstruction;
+
+  /// No description provided for @challengeQrMatched.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mã khớp!'**
+  String get challengeQrMatched;
+
+  /// No description provided for @challengeQrNotMatched.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sai mã, thử mã khác'**
+  String get challengeQrNotMatched;
+
+  /// No description provided for @challengeCompleted.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hoàn thành!'**
+  String get challengeCompleted;
+
+  /// No description provided for @challengeEmergencyExit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thoát khẩn cấp'**
+  String get challengeEmergencyExit;
+
+  /// No description provided for @challengeEmergencyHold.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giữ {seconds} giây để thoát'**
+  String challengeEmergencyHold(int seconds);
+
+  /// No description provided for @challengeEmergencyConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận thoát khẩn cấp?'**
+  String get challengeEmergencyConfirm;
+
+  /// No description provided for @challengeEmergencyWarning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Báo thức sẽ được tắt mà không hoàn thành thử thách.'**
+  String get challengeEmergencyWarning;
+
+  /// No description provided for @challengeSelectAtLeastOne.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn ít nhất 1 thử thách'**
+  String get challengeSelectAtLeastOne;
+
+  /// No description provided for @challengeQrSetupTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cài đặt mã QR'**
+  String get challengeQrSetupTitle;
+
+  /// No description provided for @challengeQrScanToAdd.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quét mã QR để thêm'**
+  String get challengeQrScanToAdd;
+
+  /// No description provided for @challengeQrRegistered.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} mã đã đăng ký'**
+  String challengeQrRegistered(int count);
+
+  /// No description provided for @confirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận'**
+  String get confirm;
+
+  /// No description provided for @shakeTargetCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'Số lần lắc'**
+  String get shakeTargetCount;
 }
 
 class _AppLocalizationsDelegate

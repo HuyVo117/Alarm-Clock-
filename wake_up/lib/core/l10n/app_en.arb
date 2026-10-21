@@ -76,5 +76,76 @@
   "grantPermission": "Grant Permission",
   "openSettings": "Open Settings",
   "iosUnsupportedTitle": "Not Supported",
-  "iosUnsupportedDesc": "Alarm feature requires iOS 26 or later."
+  "iosUnsupportedDesc": "Alarm feature requires iOS 26 or later.",
+
+  "challengeTitle": "Challenge",
+  "challengeMath": "Math",
+  "challengeShake": "Shake Phone",
+  "challengeQr": "Scan QR Code",
+  "challengeMathDesc": "{count} questions",
+  "@challengeMathDesc": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "challengeShakeDesc": "{count} shakes",
+  "@challengeShakeDesc": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "challengeQrDesc": "Scan registered code",
+  "challengeSetup": "Setup",
+  "challengeDifficultyEasy": "Easy",
+  "challengeDifficultyMedium": "Medium",
+  "challengeDifficultyHard": "Hard",
+  "challengeProgress": "Challenge {current}/{total}",
+  "@challengeProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "challengeQuestionProgress": "Q {current}/{total}",
+  "@challengeQuestionProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "challengeShakeProgress": "{current}/{total} shakes",
+  "@challengeShakeProgress": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "challengeStartButton": "Start Challenge",
+  "challengeCorrect": "Correct!",
+  "challengeWrong": "Wrong, try again!",
+  "challengeShakeInstruction": "Shake your phone!",
+  "challengeQrInstruction": "Scan the registered QR code",
+  "challengeQrMatched": "Code matched!",
+  "challengeQrNotMatched": "Wrong code, try another",
+  "challengeCompleted": "Completed!",
+  "challengeEmergencyExit": "Emergency Exit",
+  "challengeEmergencyHold": "Hold for {seconds}s to exit",
+  "@challengeEmergencyHold": {
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "challengeEmergencyConfirm": "Confirm emergency exit?",
+  "challengeEmergencyWarning": "The alarm will be dismissed without completing the challenge.",
+  "challengeSelectAtLeastOne": "Select at least 1 challenge",
+  "challengeQrSetupTitle": "QR Code Setup",
+  "challengeQrScanToAdd": "Scan a QR code to add",
+  "challengeQrRegistered": "{count} codes registered",
+  "@challengeQrRegistered": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "confirm": "Confirm",
+  "shakeTargetCount": "Shake count"
 }
