@@ -1,38 +1,38 @@
-# Trạng thái dự án (cập nhật lần cuối: 2026-10-21 15:35)
+# Trạng thái dự án (cập nhật lần cuối: 2026-10-21 18:00)
 
 ## Đang ở đâu
-- Giai đoạn hiện tại: Tính năng Đồng hồ Thế giới (World Clock)
-- Nhiệm vụ đang làm: Hoàn tất tính năng World Clock
+- Giai đoạn hiện tại: GĐ 8: Nông Trại Thức Giấc (Wake-up Farm)
+- Nhiệm vụ đang làm: Hoàn tất trọn bộ tính năng Nông Trại Thức Giấc (Isometric 2.5D, Gacha đột biến màu sắc, Shop, Rương thần kỳ, Sổ tay, Bạn bè)
 - Tình trạng: đã hoàn thành
 
 ## Đã xong
-- [x] Kế hoạch triển khai World Clock được người dùng duyệt
-- [x] Thêm package `timezone: ^0.11.2` vào `pubspec.yaml`
-- [x] Tạo domain model `WorldCityModel` (`lib/features/world_clock/domain/world_city_model.dart`)
-- [x] Tạo domain service `WorldClockService` (`lib/features/world_clock/domain/world_clock_service.dart`)
-- [x] Tạo bảng dữ liệu thành phố `city_data.dart` (`lib/features/world_clock/data/city_data.dart`)
-- [x] Tạo repository lưu trữ cục bộ `LocalWorldClockRepository` (`lib/features/world_clock/data/world_clock_repository.dart`)
-- [x] Tạo Riverpod providers `savedCitiesProvider` (`lib/features/world_clock/presentation/providers/world_clock_providers.dart`)
-- [x] Tạo widget thẻ thành phố `WorldClockCard` (`lib/features/world_clock/presentation/world_clock_card.dart`)
-- [x] Tạo màn hình tìm kiếm & thêm thành phố `AddCityScreen` (`lib/features/world_clock/presentation/add_city_screen.dart`)
-- [x] Cập nhật màn hình chính `WorldClockScreen` (`lib/features/world_clock/presentation/world_clock_screen.dart`)
-- [x] Bổ sung chuỗi l10n vào `app_vi.arb` & `app_en.arb`, chạy `flutter gen-l10n`
-- [x] Tích hợp router `app_router.dart` và khởi tạo timezone trong `main.dart`
-- [x] Viết unit tests cho model, service, repository (`test/features/world_clock/`) - 13/13 tests pass
-- [x] `flutter analyze` sạch (0 issues), `flutter test` toàn bộ 87 tests pass
+- [x] Push bản Release v0.7.0 và tag lên GitHub repository thành công
+- [x] Lập kế hoạch chi tiết và lộ trình triển khai Nông Trại Thức Giấc (`docs/GARDEN_ROADMAP.md`)
+- [x] Xây dựng Domain Models: `PlotModel`, `SeedModel`, `CropVariantModel`, `ChestRewardModel`, `GardenProfileModel`
+- [x] Xây dựng Module Toán học Isometric 2.5D: `IsometricMath` (chuyển đổi lưới 4x4 <-> màn hình, phát hiện chạm)
+- [x] Xây dựng Bộ máy Đột biến màu sắc & Thưởng rương: `MutationEngine`
+- [x] Xây dựng Data Catalog: `SeedsCatalog` (Củ cải 0đ, Bắp ngọt, Bí ngô thần kỳ)
+- [x] Xây dựng Local Storage: `LocalGardenRepository` (`garden_state.json`)
+- [x] Xây dựng State Management: `GardenNotifier` kế thừa chuẩn Riverpod `Notifier<GardenState>`
+- [x] Vẽ đồ họa CustomPainter: `IsometricIslandPainter` (hòn đảo nổi 3D, 16 ô đất cày xới, viền phát sáng, cây trồng)
+- [x] Xây dựng HUD & Điều khiển: `FarmHeaderHud`, `FarmQuickActions`, `FarmBottomBar`, `SeedDrawerSheet`
+- [x] Xây dựng Modals: `FarmShopModal` (bộ chọn số lượng 1-99), `ChestRewardModal`, `CropHandbookModal`, `FriendFarmModal`
+- [x] Tích hợp màn hình chính `GardenScreen` vào Tab Khu vườn
+- [x] Viết Unit Tests đầy đủ: 18 unit tests cho Nông trại (tổng 105/105 unit tests toàn dự án pass 100%)
+- [x] `flutter analyze` sạch không có lỗi (0 issues)
 
 ## Việc tiếp theo (theo thứ tự)
-1. Kiểm tra trải nghiệm thực tế trên máy thật hoặc emulator
-2. Chuẩn bị triển khai các giai đoạn tiếp theo theo ROADMAP.md
+1. Kết nối với sự kiện hoàn thành thức dậy của Báo thức để tự động gọi `awardMorningAlarmBonus`
+2. Đóng gói release APK và test trải nghiệm trên thiết bị thật
 
 ## File đang làm dở
-- Không có (tính năng World Clock đã hoàn thiện)
+- Không có (tính năng Nông Trại Thức Giấc đã hoàn thiện đầy đủ)
 
 ## Quyết định đã chốt (không bàn lại)
 - Dùng Riverpod, go_router, drift (schemaVersion = 3)
 - Giao diện Cupertino dark theme, màu cam `#FF9500`
-- World clock dùng package `timezone`, lưu trữ bằng JSON file cục bộ (`LocalWorldClockRepository`)
-- Bảng tĩnh các thành phố lớn IANA được biên dịch sẵn, tính toán múi giờ và ngày/đêm bằng Dart thuần
+- Mini-game Nông Trại dùng Flutter Canvas CustomPainter + Toán Isometric 2.5D không phụ thuộc game engine ngoài
+- Lưu trữ Nông trại bằng JSON cục bộ (`garden_state.json`) an toàn, độc lập, dễ test
 
 ## Vấn đề đang gặp / chưa giải quyết
 - Không có
