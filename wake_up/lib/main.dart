@@ -5,11 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'features/world_clock/domain/world_clock_service.dart';
 
 void main() async {
   dev.log('>>> [STARTUP] main() started');
   WidgetsFlutterBinding.ensureInitialized();
   dev.log('>>> [STARTUP] WidgetsFlutterBinding initialized');
+
+  WorldClockService.initialize();
 
   try {
     dev.log('>>> [STARTUP] Calling Alarm.init()...');

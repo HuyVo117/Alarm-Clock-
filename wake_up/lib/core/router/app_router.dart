@@ -8,12 +8,14 @@ import '../../features/alarms/presentation/alarm_ringing_screen.dart';
 import '../../features/analytics/presentation/analytics_screen.dart';
 import '../../features/bedtime/presentation/bedtime_screen.dart';
 import '../../features/garden/presentation/garden_screen.dart';
+import '../../features/world_clock/presentation/add_city_screen.dart';
 import '../../features/world_clock/presentation/world_clock_screen.dart';
 import '../theme/app_theme.dart';
 
 /// Các route paths
 class AppRoutes {
   static const String worldClock = '/world-clock';
+  static const String worldClockAdd = '/world-clock/add';
   static const String alarms = '/alarms';
   static const String bedtime = '/bedtime';
   static const String garden = '/garden';
@@ -37,13 +39,7 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: AppRoutes.worldClock,
-              builder: (context, state) {
-                final l10n = AppLocalizations.of(context)!;
-                return PlaceholderScreen(
-                  title: l10n.worldClockTitle,
-                  icon: CupertinoIcons.globe,
-                );
-              },
+              builder: (context, state) => const WorldClockScreen(),
             ),
           ],
         ),
@@ -104,6 +100,11 @@ final GoRouter appRouter = GoRouter(
         );
         return AlarmRingingScreen(alarmId: alarmId);
       },
+    ),
+    // Route ngoài tab: thêm thành phố vào đồng hồ thế giới
+    GoRoute(
+      path: AppRoutes.worldClockAdd,
+      builder: (context, state) => const AddCityScreen(),
     ),
   ],
 );

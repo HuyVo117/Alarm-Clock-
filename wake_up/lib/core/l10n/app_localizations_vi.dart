@@ -334,4 +334,47 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get challengePhotoSetupTitle => 'Đăng ký ảnh mẫu';
+
+  @override
+  String get addCity => 'Thêm thành phố';
+
+  @override
+  String get searchCityPlaceholder => 'Tìm kiếm thành phố hoặc quốc gia';
+
+  @override
+  String get noSavedCities => 'Chưa có thành phố nào';
+
+  @override
+  String get noSavedCitiesDesc =>
+      'Nhấn nút + ở góc trên bên phải để thêm đồng hồ thế giới';
+
+  @override
+  String get today => 'Hôm nay';
+
+  @override
+  String get tomorrow => 'Ngày mai';
+
+  @override
+  String get yesterday => 'Hôm qua';
+
+  @override
+  String get sameTime => 'cùng giờ';
+
+  @override
+  String get hoursAhead => 'giờ';
+
+  @override
+  String get hoursBehind => 'giờ';
+
+  @override
+  String get cityAlreadyAdded => 'Đã thêm thành phố này';
+
+  @override
+  String get editList => 'Sửa';
+
+  @override
+  String get doneEditing => 'Xong';
+
+  @override
+  String get currentLocalTime => 'Giờ địa phương';
 }

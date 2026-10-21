@@ -159,5 +159,19 @@
   "challengePhotoDesc": "Match reference location photo",
   "challengePhotoRegistered": "Reference photo set",
   "challengePhotoNotRegistered": "Need reference photo",
-  "challengePhotoSetupTitle": "Register Photo"
+  "challengePhotoSetupTitle": "Register Photo",
+  "addCity": "Add City",
+  "searchCityPlaceholder": "Search city or country",
+  "noSavedCities": "No World Clocks",
+  "noSavedCitiesDesc": "Tap the + button in the top right to add a city",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "yesterday": "Yesterday",
+  "sameTime": "same time",
+  "hoursAhead": "HRS",
+  "hoursBehind": "HRS",
+  "cityAlreadyAdded": "City already added",
+  "editList": "Edit",
+  "doneEditing": "Done",
+  "currentLocalTime": "Local Time"
 }

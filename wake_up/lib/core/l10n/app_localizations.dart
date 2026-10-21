@@ -697,6 +697,90 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đăng ký ảnh mẫu'**
   String get challengePhotoSetupTitle;
+
+  /// No description provided for @addCity.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thêm thành phố'**
+  String get addCity;
+
+  /// No description provided for @searchCityPlaceholder.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm kiếm thành phố hoặc quốc gia'**
+  String get searchCityPlaceholder;
+
+  /// No description provided for @noSavedCities.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có thành phố nào'**
+  String get noSavedCities;
+
+  /// No description provided for @noSavedCitiesDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhấn nút + ở góc trên bên phải để thêm đồng hồ thế giới'**
+  String get noSavedCitiesDesc;
+
+  /// No description provided for @today.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hôm nay'**
+  String get today;
+
+  /// No description provided for @tomorrow.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày mai'**
+  String get tomorrow;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hôm qua'**
+  String get yesterday;
+
+  /// No description provided for @sameTime.
+  ///
+  /// In vi, this message translates to:
+  /// **'cùng giờ'**
+  String get sameTime;
+
+  /// No description provided for @hoursAhead.
+  ///
+  /// In vi, this message translates to:
+  /// **'giờ'**
+  String get hoursAhead;
+
+  /// No description provided for @hoursBehind.
+  ///
+  /// In vi, this message translates to:
+  /// **'giờ'**
+  String get hoursBehind;
+
+  /// No description provided for @cityAlreadyAdded.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã thêm thành phố này'**
+  String get cityAlreadyAdded;
+
+  /// No description provided for @editList.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sửa'**
+  String get editList;
+
+  /// No description provided for @doneEditing.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xong'**
+  String get doneEditing;
+
+  /// No description provided for @currentLocalTime.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giờ địa phương'**
+  String get currentLocalTime;
 }
 
 class _AppLocalizationsDelegate

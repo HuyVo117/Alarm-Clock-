@@ -163,5 +163,19 @@
   "challengePhotoDesc": "Chụp ảnh vị trí tham chiếu",
   "challengePhotoRegistered": "Đã có ảnh mẫu",
   "challengePhotoNotRegistered": "Cần chụp ảnh mẫu",
-  "challengePhotoSetupTitle": "Đăng ký ảnh mẫu"
+  "challengePhotoSetupTitle": "Đăng ký ảnh mẫu",
+  "addCity": "Thêm thành phố",
+  "searchCityPlaceholder": "Tìm kiếm thành phố hoặc quốc gia",
+  "noSavedCities": "Chưa có thành phố nào",
+  "noSavedCitiesDesc": "Nhấn nút + ở góc trên bên phải để thêm đồng hồ thế giới",
+  "today": "Hôm nay",
+  "tomorrow": "Ngày mai",
+  "yesterday": "Hôm qua",
+  "sameTime": "cùng giờ",
+  "hoursAhead": "giờ",
+  "hoursBehind": "giờ",
+  "cityAlreadyAdded": "Đã thêm thành phố này",
+  "editList": "Sửa",
+  "doneEditing": "Xong",
+  "currentLocalTime": "Giờ địa phương"
 }

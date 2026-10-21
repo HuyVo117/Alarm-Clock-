@@ -334,4 +334,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get challengePhotoSetupTitle => 'Register Photo';
+
+  @override
+  String get addCity => 'Add City';
+
+  @override
+  String get searchCityPlaceholder => 'Search city or country';
+
+  @override
+  String get noSavedCities => 'No World Clocks';
+
+  @override
+  String get noSavedCitiesDesc =>
+      'Tap the + button in the top right to add a city';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get tomorrow => 'Tomorrow';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get sameTime => 'same time';
+
+  @override
+  String get hoursAhead => 'HRS';
+
+  @override
+  String get hoursBehind => 'HRS';
+
+  @override
+  String get cityAlreadyAdded => 'City already added';
+
+  @override
+  String get editList => 'Edit';
+
+  @override
+  String get doneEditing => 'Done';
+
+  @override
+  String get currentLocalTime => 'Local Time';
 }

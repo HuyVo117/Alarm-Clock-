@@ -33,3 +33,60 @@ Dự án Flutter "Wake Up": app báo thức giao diện kiểu iPhone. Kế ho�
 - Không xóa hoặc ghi đè file `docs/PLAN.md`.
 - Không bỏ qua bước xin duyệt kế hoạch.
 - Không tự giả định hành vi nền tảng. Nếu không chắc về hành vi của Android hoặc iOS, hãy nêu rõ và hỏi.
+
+## Quy tắc tiết kiệm ngữ cảnh và bàn giao (BẮT BUỘC)
+
+Dự án này được làm qua nhiều phiên, nhiều tài khoản khác nhau. Quota có thể
+hết bất cứ lúc nào, nên trạng thái phải luôn nằm trong file, không nằm trong chat.
+
+### Khi bắt đầu phiên mới
+1. Chỉ đọc `docs/STATE.md` và `AGENTS.md`. KHÔNG đọc toàn bộ repo, KHÔNG đọc
+   `PLAN.md` trừ khi STATE.md bảo cần đọc một mục cụ thể.
+2. Chỉ mở những file được liệt kê trong mục "File đang làm dở" của STATE.md.
+3. Nếu thông tin trong STATE.md chưa đủ, hỏi tôi, đừng quét toàn bộ dự án.
+
+### Trong khi làm việc
+- Sau MỖI nhiệm vụ nhỏ hoàn thành (một màn hình, một hàm, một bug), cập nhật
+  `docs/STATE.md` ngay, rồi `git commit` với message mô tả rõ. Không dồn lại cuối phiên.
+- Làm từng nhiệm vụ nhỏ, đừng ôm nhiều việc một lượt.
+- Khi tìm hiểu mã, dùng tìm kiếm có mục tiêu (grep theo tên hàm/class), không đọc cả thư mục.
+- Không in lại nội dung file dài trong câu trả lời; chỉ nêu đường dẫn và phần đã đổi.
+- Quyết định kỹ thuật quan trọng (chọn package, đổi kiến trúc) ghi vào
+  `docs/DECISIONS.md` kèm một dòng lý do.
+
+### Khi tôi gõ "handoff"
+Ngay lập tức: cập nhật STATE.md đầy đủ, commit mọi thay đổi, rồi trả lời đúng
+một câu ngắn xác nhận. Không giải thích thêm.
+2. Tạo file docs/STATE.md (agent sẽ giữ cập nhật)
+markdown
+# Trạng thái dự án (cập nhật lần cuối: <ngày giờ>)
+
+## Đang ở đâu
+- Giai đoạn hiện tại: GĐ <số> (<tên>)
+- Nhiệm vụ đang làm: <một câu>
+- Tình trạng: <chưa bắt đầu / đang làm / bị chặn>
+
+## Đã xong
+- [x] <việc 1, kèm file chính>
+- [x] <việc 2>
+
+## Việc tiếp theo (theo thứ tự)
+1. <việc cụ thể, nêu rõ file cần sửa>
+2. <việc tiếp>
+
+## File đang làm dở
+- `wake_up/lib/...` : <đang làm gì, còn thiếu gì>
+
+## Quyết định đã chốt (không bàn lại)
+- <ví dụ: dùng Riverpod, drift; iOS 26 là tối thiểu>
+
+## Vấn đề đang gặp / chưa giải quyết
+- <lỗi, câu hỏi chờ tôi trả lời>
+
+## Cách chạy và kiểm tra
+- Lệnh: `cd wake_up && flutter analyze && flutter test`
+- Đã test tay trên máy thật: <có/chưa, những gì>
+3. Prompt mở phiên mới (sau khi chuyển tài khoản)
+Đọc docs/STATE.md và AGENTS.md, không đọc gì thêm. Tóm tắt trong 3 dòng bạn
+hiểu dự án đang ở đâu, rồi làm "Việc tiếp theo" số 1. Làm xong thì cập nhật
+STATE.md và commit.
